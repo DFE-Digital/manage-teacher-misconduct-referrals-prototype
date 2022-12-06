@@ -1,22 +1,101 @@
 {% extends "layouts/main.html" %}
 
+{% set title = 'Referrals' %}
+
 {% block pageTitle %}
-Home – {{serviceName}} – GOV.UK Prototype Kit
+{{title}} – {{serviceName}} – GOV.UK
 {% endblock %}
 
 {% block content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-
-    {% include "govuk-prototype-kit/includes/homepage-top.njk" %}
-
-    <h1 class="govuk-heading-xl">
-      {{ serviceName }}
-    </h1>
-
-    {% include "govuk-prototype-kit/includes/homepage-bottom.njk" %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <h1 class="govuk-heading-xl">
+        {{ title }}
+      </h1>
+    </div>
   </div>
-</div>
+
+  {{ govukTable({
+    firstCellIsHeader: false,
+    head: [
+      {
+        html: 'Name of teacher'
+      },
+      {
+        html: 'Referrer'
+      },
+      {
+        html: 'Date of referral'
+      }
+    ],
+    rows: [
+      [
+        {
+          html: '<a href="/show">Thanos Dione</a>'
+        },
+        {
+          html: 'Tony Stark'
+        },
+        {
+          html: '19 December 2022 at 1:47pm'
+        }
+      ],
+      [
+        {
+          html: '<a href="/show">Ultron Stark</a>'
+        },
+        {
+          html: 'Steve Rogers'
+        },
+        {
+          html: '18 December 2022 at 12pm (midday)'
+        }
+      ],
+      [
+        {
+          html: '<a href="/show">Alex Lukin</a>'
+        },
+        {
+          html: 'Bucky Barnes'
+        },
+        {
+          html: '18 December 2022 at 9:31am'
+        }
+      ],
+      [
+        {
+          html: '<a href="/show">Darren Cross</a>'
+        },
+        {
+          html: 'Scott Lang'
+        },
+        {
+          html: '17 December 2022 at 4pm'
+        }
+      ]
+    ]
+  }) }}
+
+  {{ govukPagination({
+    next: {
+      href: "#"
+    },
+    items: [
+      {
+        number: 1,
+        href: "#",
+        current: true
+      },
+      {
+        number: 2,
+        href: "#"
+      },
+      {
+        number: 3,
+        href: "#"
+      }
+    ]
+  }) }}
 
 {% endblock %}

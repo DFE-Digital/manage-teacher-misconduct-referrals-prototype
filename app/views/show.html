@@ -1,0 +1,46 @@
+{% extends "layouts/main.html" %}
+
+{% set title = 'Thanos Dione' %}
+
+{% block pageTitle %}
+  {{title}} – {{serviceName}} – GOV.UK
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [{
+      text: 'Referrals',
+      href: '/'
+    }, {
+      text: title
+    }]
+  }) }}
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <h1 class="govuk-heading-xl">
+        {{ title }}
+      </h1>
+    </div>
+  </div>
+
+
+
+  <h2 class="govuk-heading-m">
+    The allegation
+  </h2>
+
+  <h2 class="govuk-heading-m">
+    About the teacher
+  </h2>
+
+  <h2 class="govuk-heading-m">
+    About the referrer
+  </h2>
+
+
+
+{% endblock %}
