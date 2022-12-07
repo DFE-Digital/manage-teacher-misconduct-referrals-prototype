@@ -11,80 +11,42 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <h1 class="govuk-heading-xl">
-        {{ title }}
+        {{ title }} ({{data.referrals.length}})
       </h1>
+
+      {{data.referrals | log}}
+      <div class="app-jobs">
+        {% for referral in data.referrals %}
+          <div class="app-jobs__item">
+            <h2 class="govuk-heading-m">
+              <a href="/referral/{{referral.id}}">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
+            </h2>
+            {{ govukSummaryList({
+              classes: 'govuk-summary-list--no-border app-summary-list--compact',
+              rows: [
+                {
+                  key: {
+                    text: "Submission date"
+                  },
+                  value: {
+                    text: referral.submissionDate | date
+                  }
+                },
+                {
+                  key: {
+                    text: "Referrer"
+                  },
+                  value: {
+                    html: referral.referrer.name
+                  }
+                }
+              ]
+            }) }}
+          </div>
+        {% endfor %}
+      </div>
     </div>
   </div>
-
-  {% for referral in data.referrals %}
-    <div>
-      <h2 class="govuk-heading-m">
-        <a href="#">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
-      </h2>
-      <p>Submitted on {{referral.submissionDate}}</p>
-      <p>Referred by {{referral.referrer.name}}</p>
-    </div>
-  {% endfor %}
-  {# {{ govukTable({
-    firstCellIsHeader: false,
-    head: [
-      {
-        html: 'Name of teacher'
-      },
-      {
-        html: 'Referrer'
-      },
-      {
-        html: 'Date of referral'
-      }
-    ],
-    rows: [
-      [
-        {
-          html: '<a href="/referrals">Thanos Dione</a>'
-        },
-        {
-          html: 'Tony Stark'
-        },
-        {
-          html: '19 December 2022 at 1:47pm'
-        }
-      ],
-      [
-        {
-          html: '<a href="/show">Ultron Stark</a>'
-        },
-        {
-          html: 'Steve Rogers'
-        },
-        {
-          html: '18 December 2022 at 12pm (midday)'
-        }
-      ],
-      [
-        {
-          html: '<a href="/show">Alex Lukin</a>'
-        },
-        {
-          html: 'Bucky Barnes'
-        },
-        {
-          html: '18 December 2022 at 9:31am'
-        }
-      ],
-      [
-        {
-          html: '<a href="/show">Darren Cross</a>'
-        },
-        {
-          html: 'Scott Lang'
-        },
-        {
-          html: '17 December 2022 at 4pm'
-        }
-      ]
-    ]
-  }) }} #}
 
   {{ govukPagination({
     next: {

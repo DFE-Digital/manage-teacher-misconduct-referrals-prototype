@@ -180,9 +180,9 @@ const generateReferral = (params = {}) => {
 const generateReferrals = () => {
   const referrals = []
 
-  referrals.push(generateReferral({
-    name: 'Adam'
-  }))
+  for(let i = 0; i < 25; i++) {
+    referrals.push(generateReferral())
+  }
 
   return referrals
 }
