@@ -9,7 +9,7 @@ const generateReferral = (params = {}) => {
 
   // meta
   referral.id = params.id || ('' + faker.datatype.number({min: 123456, max: 999999}))
-  referral.submissionDate = params.submissionDate || faker.date.past()
+  referral.referralDate = params.referralDate || faker.date.past()
 
   // Referrer
   referral.referrer = _.get(params, 'referrer') || {}

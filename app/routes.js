@@ -6,10 +6,18 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
-// Add your routes here
+router.get('/referrals', (req, res) => {
+  let referrals = req.session.data.referrals.sort((a, b) => {
+    return new Date(b.referralDate) - new Date(a.referralDate);
+  })
+  res.render('referrals/index', {
+    referrals
+  })
+})
+
 router.get('/referral/:referralId', (req, res) => {
   let referral = req.session.data.referrals.find(referral => referral.id == req.params.referralId)
-  res.render('show', {
+  res.render('referrals/show', {
     referral
   })
 })

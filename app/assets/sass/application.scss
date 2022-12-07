@@ -19,11 +19,11 @@
   }
 }
 
-.app-jobs {
+.app-referrals {
   margin-bottom: govuk-spacing(4);
 }
 
-.app-jobs__item {
+.app-referrals__item {
   border-bottom: 1px solid $govuk-border-colour;
   padding-top: govuk-spacing(3);
   padding-bottom: govuk-spacing(3);
@@ -34,13 +34,6 @@
 
   h2 {
     margin-bottom: govuk-spacing(1);
-  }
-
-  .app-jobs__address {
-    margin-bottom: govuk-spacing(1);
-    @include govuk-media-query($from: tablet) {
-      margin-bottom: 0;
-    }
   }
 
   .govuk-summary-list {

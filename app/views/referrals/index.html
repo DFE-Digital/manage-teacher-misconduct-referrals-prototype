@@ -1,0 +1,71 @@
+{% extends "layouts/main.html" %}
+
+{% set title = 'Referrals' %}
+
+{% block pageTitle %}
+{{title}} – {{serviceName}} – GOV.UK
+{% endblock %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <h1 class="govuk-heading-xl">
+        {{ title }} ({{referrals.length}})
+      </h1>
+
+      <div class="app-referrals">
+        {% for referral in referrals %}
+          <div class="app-referrals__item">
+            <h2 class="govuk-heading-m">
+              <a href="/referral/{{referral.id}}">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
+            </h2>
+            {{ govukSummaryList({
+              classes: 'govuk-summary-list--no-border app-summary-list--compact',
+              rows: [
+                {
+                  key: {
+                    text: "Referral date"
+                  },
+                  value: {
+                    text: referral.referralDate | date
+                  }
+                },
+                {
+                  key: {
+                    text: "Referrer"
+                  },
+                  value: {
+                    html: referral.referrer.name
+                  }
+                }
+              ]
+            }) }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  {{ govukPagination({
+    next: {
+      href: "#"
+    },
+    items: [
+      {
+        number: 1,
+        href: "#",
+        current: true
+      },
+      {
+        number: 2,
+        href: "#"
+      },
+      {
+        number: 3,
+        href: "#"
+      }
+    ]
+  }) }}
+
+{% endblock %}
