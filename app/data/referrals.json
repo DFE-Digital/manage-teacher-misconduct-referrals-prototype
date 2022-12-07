@@ -1,0 +1,80 @@
+[
+  {
+    "id": "712174",
+    "submissionDate": "2022-04-12T08:36:07.386Z",
+    "referrer": {
+      "name": "Russel Schimmel",
+      "jobTitle": "Teaching assistant",
+      "phoneNumber": "07978 738 525",
+      "organisation": {
+        "name": "Bergstrom - Auer School",
+        "address": {
+          "line1": "1 The Avenue",
+          "town": "London",
+          "postcode": "W9 1ST"
+        }
+      }
+    },
+    "teacher": {
+      "firstName": "Leanna",
+      "lastName": "Grant",
+      "hasAnotherName": "Yes",
+      "otherName": "Bobsky",
+      "dateOfBirth": "2022-08-06T20:50:12.947Z",
+      "hasNationalInsuranceNumber": "No",
+      "hasTeacherReferenceNumber": "No",
+      "hasQTS": "I do not know",
+      "hasEmailAddress": "No",
+      "hasPhoneNumber": "No",
+      "address": {
+        "line1": "1 The Walk",
+        "town": "Manchester",
+        "postcode": "M1 1AG"
+      },
+      "hasJobStartDate": "Yes",
+      "jobStartDate": "2022-02-09T22:04:57.149Z",
+      "areTheyStillEmployed": "They’re still employed but they’ve been suspended",
+      "jobTitle": "Teaching assistant",
+      "doesWorkAtSameOrganisation": "Yes",
+      "roleDescriptionMethod": "I’ll upload a job description",
+      "roleDescriptionFile": {
+        "name": "job-description.pdf",
+        "size": "1MB"
+      },
+      "isTeachingSomewhereElse": "No, they’re not teaching somewhere else"
+    },
+    "allegation": {
+      "method": "I’ll give details of the allegation",
+      "description": "Odio fugiat repellat quasi aliquid incidunt beatae. Similique eligendi explicabo porro earum pariatur. Illum assumenda accusantium.\n\nVoluptatem est eligendi mollitia. Labore minus provident numquam dolor sed maiores recusandae. Porro beatae eum accusantium commodi impedit blanditiis. Voluptatem animi quas.\n\nQuis eaque quasi blanditiis minima quos. Doloribus suscipit eveniet nisi ab non dolore harum cumque aperiam. Omnis excepturi ab magni nesciunt quaerat molestiae unde.",
+      "hasToldDBS": "Yes, I’ve told DBS"
+    },
+    "previousAllegations": {
+      "hasPreviousAllegations": "No"
+    },
+    "evidence": {
+      "hasEvidence": "Yes",
+      "files": [
+        {
+          "name": "main-investigation.pdf",
+          "size": "1MB",
+          "category": "Documents of internal investigations and outcomes"
+        },
+        {
+          "name": "police-investigation.pdf",
+          "size": "3MB",
+          "category": "Police investigations and reports"
+        },
+        {
+          "name": "signed-withness-statements.pdf",
+          "size": "2MB",
+          "category": "Signed witness statements"
+        },
+        {
+          "name": "cctv-footage.mp4",
+          "size": "2MB",
+          "category": "File notes concerning conduct, behaviour and attitude"
+        }
+      ]
+    }
+  }
+]

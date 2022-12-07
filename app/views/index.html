@@ -16,7 +16,16 @@
     </div>
   </div>
 
-  {{ govukTable({
+  {% for referral in data.referrals %}
+    <div>
+      <h2 class="govuk-heading-m">
+        <a href="#">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
+      </h2>
+      <p>Submitted on {{referral.submissionDate}}</p>
+      <p>Referred by {{referral.referrer.name}}</p>
+    </div>
+  {% endfor %}
+  {# {{ govukTable({
     firstCellIsHeader: false,
     head: [
       {
@@ -32,7 +41,7 @@
     rows: [
       [
         {
-          html: '<a href="/show">Thanos Dione</a>'
+          html: '<a href="/referrals">Thanos Dione</a>'
         },
         {
           html: 'Tony Stark'
@@ -75,7 +84,7 @@
         }
       ]
     ]
-  }) }}
+  }) }} #}
 
   {{ govukPagination({
     next: {

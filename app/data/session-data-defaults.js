@@ -1,5 +1,6 @@
+const referrals = require('../data/referrals.json')
+
+
 module.exports = {
-
-  // Insert values here
-
+  referrals
 }
