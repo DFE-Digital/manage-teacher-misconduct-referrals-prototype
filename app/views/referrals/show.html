@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set title = 'Thanos Dione' %}
+{% set title = referral.teacher.firstName + ' ' + referral.teacher.lastName  %}
 
 {% block pageTitle %}
   {{title}} – {{serviceName}} – GOV.UK
@@ -21,26 +21,312 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
-      <h1 class="govuk-heading-xl">
+      <h1 class="govuk-heading-l">
+        <span class="govuk-caption-l">
+          {{referral.id}}
+        </span>
         {{ title }}
       </h1>
+
+      {# <h2 class="govuk-heading-m">
+        About the teacher
+      </h2> #}
+
+      {% set teacherAddress %}
+        {{appFormattedAddress({
+          line1: referral.teacher.address.line1,
+          line2: referral.teacher.address.line2,
+          town: referral.teacher.address.town,
+          postcode: referral.teacher.address.postcode,
+          country: referral.teacher.address.country
+        })}}
+      {% endset %}
+
+      {% set referrerOrganisationAddress %}
+        {% if referral.referrer.organisation.address %}
+          {{appFormattedAddress({
+            line1: referral.referrer.organisation.address.line1,
+            line1: referral.referrer.organisation.address.line1,
+            line2: referral.referrer.organisation.address.line2,
+            town: referral.referrer.organisation.address.town,
+            postcode: referral.referrer.organisation.address.postcode,
+            country: referral.referrer.organisation.address.country
+          })}}
+        {% endif %}
+      {% endset %}
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              html: "First name"
+            },
+            value: {
+              html: referral.teacher.firstName
+            }
+          },
+          {
+            key: {
+              html: "Last name"
+            },
+            value: {
+              html: referral.teacher.lastName
+            }
+          },
+          {
+            key: {
+              html: "Other name"
+            },
+            value: {
+              html: referral.teacher.otherName
+            }
+          } if referral.teacher.otherName,
+          {
+            key: {
+              html: "Email address"
+            },
+            value: {
+              html: referral.teacher.emailAddress
+            }
+          } if referral.teacher.emailAddress,
+          {
+            key: {
+              html: "Phone number"
+            },
+            value: {
+              html: referral.teacher.phoneNumber
+            }
+          } if referral.teacher.emailAddress,
+          {
+            key: {
+              html: "Address"
+            },
+            value: {
+              html: teacherAddress
+            }
+          } if referral.teacher.address,
+          {
+            key: {
+              html: "Date of birth"
+            },
+            value: {
+              html: referral.teacher.dateOfBirth | date
+            }
+          },
+          {
+            key: {
+              html: "National insurance number"
+            },
+            value: {
+              html: referral.teacher.nationalInsuranceNumber
+            }
+          },
+          {
+            key: {
+              html: "Teacher reference number (TRN)"
+            },
+            value: {
+              html: referral.teacher.trn
+            }
+          },
+          {
+            key: {
+              html: "Does the teacher hold qualified teacher status?"
+            },
+            value: {
+              html: referral.teacher.hasQTS
+            }
+          }
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">
+        Role details
+      </h2>
+
+      {% set organisationName %}
+        {% if referral.teacher.organisation.name %}
+          {{referral.teacher.organisation.name}}
+        {% else %}
+          {{referral.referrer.organisation.name}}
+        {% endif %}
+      {% endset %}
+
+      {% set organisationAddress %}
+        {% if referral.teacher.organisation.address %}
+          {{appFormattedAddress({
+            line1: referral.teacher.organisation.address.line1,
+            line1: referral.teacher.organisation.address.line1,
+            line2: referral.teacher.organisation.address.line2,
+            town: referral.teacher.organisation.address.town,
+            postcode: referral.teacher.organisation.address.postcode,
+            country: referral.teacher.organisation.address.country
+          })}}
+        {% else %}
+          {{referrerOrganisationAddress | safe }}
+        {% endif %}
+      {% endset %}
+
+      {%- set roleDescription -%}
+        {%- if referral.teacher.roleDescriptionFile -%}
+          <a href="#">{{referral.teacher.roleDescriptionFile.name}} {{referral.teacher.roleDescriptionFile.size}}</a>
+        {%- else -%}
+          {{referral.teacher.roleDescription}}
+        {%- endif -%}
+      {%- endset -%}
+
+      {% set newOrganisationAddress %}
+        {% if referral.teacher.newOrganisation.address %}
+          {{appFormattedAddress({
+            line1: referral.teacher.newOrganisation.address.line1,
+            line1: referral.teacher.newOrganisation.address.line1,
+            line2: referral.teacher.newOrganisation.address.line2,
+            town: referral.teacher.newOrganisation.address.town,
+            postcode: referral.teacher.newOrganisation.address.postcode,
+            country: referral.teacher.newOrganisation.address.country
+          })}}
+        {% endif %}
+      {% endset %}
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              html: "Job title"
+            },
+            value: {
+              html: referral.teacher.jobTitle
+            }
+          },
+          {
+            key: {
+              html: "Job start date"
+            },
+            value: {
+              html: referral.teacher.jobStartDate | date
+            }
+          } if referral.teacher.jobStartDate,
+          {
+            key: {
+              html: "Job end date"
+            },
+            value: {
+              html: referral.teacher.jobEndDate | date
+            }
+          } if referral.teacher.jobEndDate,
+          {
+            key: {
+              html: "Reason for job ending"
+            },
+            value: {
+              html: referral.teacher.jobEndReason
+            }
+          } if referral.teacher.jobEndReason,
+          {
+            key: {
+              html: "Organisation name"
+            },
+            value: {
+              html: organisationName
+            }
+          },
+          {
+            key: {
+              html: "Organisation address"
+            },
+            value: {
+              html: organisationAddress
+            }
+          },
+          {
+            key: {
+              html: "Role description"
+            },
+            value: {
+              html: roleDescription
+            }
+          } if roleDescription | length,
+          {
+            key: {
+              html: "Are they teaching somewhere else?"
+            },
+            value: {
+              html: referral.teacher.isTeachingSomewhereElse
+            }
+          },
+          {
+            key: {
+              html: "New organisation name"
+            },
+            value: {
+              html: referral.teacher.newOrganisation.name
+            }
+          } if referral.teacher.newOrganisation.name,
+          {
+            key: {
+              html: "New organisation address"
+            },
+            value: {
+              html: newOrganisationAddress
+            }
+          } if referral.teacher.newOrganisation.address
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">
+        The allegation
+      </h2>
+
+      <h2 class="govuk-heading-m">
+        Referrer details
+      </h2>
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              html: "Full name"
+            },
+            value: {
+              html: referral.referrer.name
+            }
+          },
+          {
+            key: {
+              html: "Job title"
+            },
+            value: {
+              html: referral.referrer.jobTitle
+            }
+          },
+          {
+            key: {
+              html: "Phone number"
+            },
+            value: {
+              html: referral.referrer.phoneNumber
+            }
+          },
+          {
+            key: {
+              html: "Organisation name"
+            },
+            value: {
+              html: referral.referrer.organisation.name
+            }
+          } if referral.referrer.organisation.name,
+          {
+            key: {
+              html: "Organisation address"
+            },
+            value: {
+              html: referrerOrganisationAddress
+            }
+          } if referral.referrer.organisation.address
+        ]
+      }) }}
+
     </div>
   </div>
-
-
-
-  <h2 class="govuk-heading-m">
-    The allegation
-  </h2>
-
-  <h2 class="govuk-heading-m">
-    About the teacher
-  </h2>
-
-  <h2 class="govuk-heading-m">
-    About the referrer
-  </h2>
-
-
 
 {% endblock %}

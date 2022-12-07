@@ -52,10 +52,12 @@ const generateReferral = (params = {}) => {
   if(referral.teacher.hasPhoneNumber == 'Yes') {
     referral.teacher.phoneNumber = _.get(params, 'teacher.phoneNumber') || faker.phone.number('079## ### ###')
   }
-  referral.teacher.address = _.get(params, 'referrer.teacher.address') || {
-    line1: '1 The Walk',
-    town: 'Manchester',
-    postcode: 'M1 1AG'
+  if(referral.teacher.hasAddress == 'Yes') {
+    referral.teacher.address = _.get(params, 'referrer.teacher.address') || {
+      line1: '1 The Walk',
+      town: 'Manchester',
+      postcode: 'M1 1AG'
+    }
   }
   referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement(['Yes', 'No'])
   if(referral.teacher.hasJobStartDate == 'Yes') {
