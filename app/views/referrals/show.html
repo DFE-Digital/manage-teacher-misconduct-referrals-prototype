@@ -10,7 +10,7 @@
   {{ govukBreadcrumbs({
     items: [{
       text: 'Referrals',
-      href: '/'
+      href: '/referrals'
     }, {
       text: title
     }]
@@ -274,8 +274,88 @@
       }) }}
 
       <h2 class="govuk-heading-m">
-        The allegation
+        Allegation details
       </h2>
+
+      {%- set allegationDetails -%}
+        {%- if referral.allegation.file -%}
+          <a href="#">{{referral.allegation.file.name}} {{referral.allegation.file.size}}</a>
+        {%- else -%}
+          {{referral.allegation.description | nl2br | safe}}
+        {%- endif -%}
+      {%- endset -%}
+
+      {%- set evidence -%}
+        {% if referral.evidence.files.length  %}
+          <ul class="govuk-list govuk-list--bullet">
+            {% for file in referral.evidence.files %}
+              <li><a href="#">{{file.name}} ({{file.size}})</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {%- endset -%}
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              html: "Allegation details"
+            },
+            value: {
+              html: allegationDetails
+            }
+          } if allegationDetails,
+          {
+            key: {
+              html: "Have you told the Disclosure and Barring Service (DBS)?"
+            },
+            value: {
+              html: referral.allegation.hasToldDBS
+            }
+          },
+          {
+            key: {
+              html: "Evidence and supporting information"
+            },
+            value: {
+              html: evidence
+            }
+          } if referral.evidence.files
+        ]
+      }) }}
+
+      <h2 class="govuk-heading-m">
+        Previous allegation details
+      </h2>
+
+      {%- set previousAllegationDetails -%}
+        {%- if referral.previousAllegations.file -%}
+          <a href="#">{{referral.previousAllegations.file.name}} {{referral.previousAllegations.file.size}}</a>
+        {%- else -%}
+          {{referral.previousAllegations.description | nl2br | safe}}
+        {%- endif -%}
+      {%- endset -%}
+
+      {{ govukSummaryList({
+        rows: [
+          {
+            key: {
+              html: "Has there been any previous misconduct?"
+            },
+            value: {
+              html: referral.previousAllegations.hasPreviousAllegations
+            }
+          },
+          {
+            key: {
+              html: "Previous allegation details"
+            },
+            value: {
+              html: previousAllegationDetails
+            }
+          } if previousAllegationDetails
+        ]
+      }) }}
 
       <h2 class="govuk-heading-m">
         Referrer details
