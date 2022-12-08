@@ -3,18 +3,23 @@ const path = require('path')
 const faker =  require('@faker-js/faker').faker
 faker.setLocale('en_GB');
 const _ = require('lodash');
+const jobTitles = [
+  'Headteacher',
+  'Teacher',
+  'Teaching assistant'
+]
 
 const generateReferral = (params = {}) => {
   let referral = {}
 
-  // meta
+  // Meta
   referral.id = params.id || ('' + faker.datatype.number({min: 123456, max: 999999}))
   referral.referralDate = params.referralDate || faker.date.past()
 
   // Referrer
   referral.referrer = _.get(params, 'referrer') || {}
   referral.referrer.name = _.get(params, 'referrer.name') || faker.name.firstName() + ' ' + faker.name.lastName()
-  referral.referrer.jobTitle = _.get(params, 'referrer.jobTitle') || faker.helpers.arrayElement(['Headteacher', 'Teacher', 'Teaching assistant'])
+  referral.referrer.jobTitle = _.get(params, 'referrer.jobTitle') || faker.helpers.arrayElement(jobTitles)
   referral.referrer.phoneNumber = _.get(params, 'referrer.phoneNumber') || faker.phone.number('079## ### ###')
 
   // Organisation
@@ -30,25 +35,45 @@ const generateReferral = (params = {}) => {
   referral.teacher = _.get(params, 'teacher') || {}
   referral.teacher.firstName = _.get(params, 'teacher.firstName') || faker.name.firstName()
   referral.teacher.lastName = _.get(params, 'teacher.lastName') || faker.name.lastName()
-  referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement(['Yes', 'No', 'I do not know'])
+  referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement([
+    'Yes',
+    'No',
+    'I do not know'
+  ])
   if(referral.teacher.hasAnotherName == 'Yes') {
     referral.teacher.otherName = _.get(params, 'teacher.otherName') || 'Bobsky'
   }
   referral.teacher.dateOfBirth = _.get(params, 'teacher.dateOfBirth') || faker.date.past()
-  referral.teacher.hasNationalInsuranceNumber = _.get(params, 'teacher.hasNationalInsuranceNumber') || faker.helpers.arrayElement(['Yes', 'No'])
+  referral.teacher.hasNationalInsuranceNumber = _.get(params, 'teacher.hasNationalInsuranceNumber') || faker.helpers.arrayElement([
+    'Yes',
+    'No'
+  ])
   if(referral.teacher.hasNationalInsuranceNumber == 'Yes') {
     referral.teacher.nationalInsuranceNumber = _.get(params, 'teacher.nationalInsuranceNumber') || 'QQ 12 34 56 C'
   }
-  referral.teacher.hasTeacherReferenceNumber = _.get(params, 'teacher.hasTeacherReferenceNumber') || faker.helpers.arrayElement(['Yes', 'No'])
+  referral.teacher.hasTeacherReferenceNumber = _.get(params, 'teacher.hasTeacherReferenceNumber') || faker.helpers.arrayElement([
+    'Yes',
+    'No'
+  ])
   if(referral.teacher.hasTeacherReferenceNumber == 'Yes') {
     referral.teacher.trn = _.get(params, 'teacher.trn') || '4567814'
   }
-  referral.teacher.hasQTS = _.get(params, 'teacher.hasQTS') || faker.helpers.arrayElement(['Yes', 'No', 'I do not know'])
-  referral.teacher.hasEmailAddress = _.get(params, 'teacher.hasEmailAddress') || faker.helpers.arrayElement(['Yes', 'No'])
+  referral.teacher.hasQTS = _.get(params, 'teacher.hasQTS') || faker.helpers.arrayElement([
+    'Yes',
+    'No',
+    'I do not know'
+  ])
+  referral.teacher.hasEmailAddress = _.get(params, 'teacher.hasEmailAddress') || faker.helpers.arrayElement([
+    'Yes',
+    'No'
+  ])
   if(referral.teacher.hasEmailAddress == 'Yes') {
     referral.teacher.emailAddress = _.get(params, 'teacher.emailAddress') || `${referral.teacher.firstName.toLowerCase()}.${referral.teacher.lastName.toLowerCase()}@gmail.com`
   }
-  referral.teacher.hasPhoneNumber = _.get(params, 'teacher.hasPhoneNumber') || faker.helpers.arrayElement(['Yes', 'No'])
+  referral.teacher.hasPhoneNumber = _.get(params, 'teacher.hasPhoneNumber') || faker.helpers.arrayElement([
+    'Yes',
+    'No'
+  ])
   if(referral.teacher.hasPhoneNumber == 'Yes') {
     referral.teacher.phoneNumber = _.get(params, 'teacher.phoneNumber') || faker.phone.number('079## ### ###')
   }
@@ -59,16 +84,28 @@ const generateReferral = (params = {}) => {
       postcode: 'M1 1AG'
     }
   }
-  referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement(['Yes', 'No'])
+  referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement([
+    'Yes',
+    'No'
+  ])
   if(referral.teacher.hasJobStartDate == 'Yes') {
     referral.teacher.jobStartDate = _.get(params, 'teacher.jobStartDate') || faker.date.past()
   }
-  referral.teacher.areTheyStillEmployed = _.get(params, 'teacher.areTheyStillEmployed') || faker.helpers.arrayElement(['Yes', 'They’re still employed but they’ve been suspended', 'No, they’ve left the organisation'])
+  referral.teacher.areTheyStillEmployed = _.get(params, 'teacher.areTheyStillEmployed') || faker.helpers.arrayElement([
+    'Yes',
+    'They’re still employed but they’ve been suspended',
+    'No, they’ve left the organisation'
+  ])
   if(referral.teacher.areTheyStillEmployed == 'No, they’ve left the organisation') {
     referral.teacher.jobEndDate = _.get(params, 'teacher.jobEndDate') || faker.date.past()
-    referral.teacher.jobEndReason = _.get(params, 'teacher.jobEndReason') || faker.helpers.arrayElement(['Resigned', 'Dismissed', 'Retired', 'I do not know'])
+    referral.teacher.jobEndReason = _.get(params, 'teacher.jobEndReason') || faker.helpers.arrayElement([
+      'Resigned',
+      'Dismissed',
+      'Retired',
+      'I do not know'
+    ])
   }
-  referral.teacher.jobTitle = _.get(params, 'teacher.jobTitle') || faker.helpers.arrayElement(['Headteacher', 'Teacher', 'Teaching assistant'])
+  referral.teacher.jobTitle = _.get(params, 'teacher.jobTitle') || faker.helpers.arrayElement(jobTitles)
   referral.teacher.doesWorkAtSameOrganisation = _.get(params, 'teacher.doesWorkAtSameOrganisation') || faker.helpers.arrayElement(['Yes', 'No'])
   if(referral.teacher.doesWorkAtSameOrganisation == 'No') {
     referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
@@ -108,7 +145,7 @@ const generateReferral = (params = {}) => {
     }
   }
 
-  // allegation
+  // Allegation
   referral.allegation = _.get(params, 'allegation') || {}
   referral.allegation.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
     'I’ll upload the allegation details',
@@ -124,7 +161,10 @@ const generateReferral = (params = {}) => {
   if(referral.allegation.method == 'I’ll give details of the allegation') {
     referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
   }
-  referral.allegation.hasToldDBS = _.get(params, 'allegation.hasToldDBS') || faker.helpers.arrayElement(['Yes, I’ve told DBS', 'No'])
+  referral.allegation.hasToldDBS = _.get(params, 'allegation.hasToldDBS') || faker.helpers.arrayElement([
+    'Yes, I’ve told DBS',
+    'No'
+  ])
 
   // Previous allegations
   referral.previousAllegations = _.get(params, 'previousAllegations') || {}
@@ -189,12 +229,6 @@ const generateReferrals = () => {
   return referrals
 }
 
-/**
- * Generate JSON file
- *
- * @param {String} filePath Location of generated file
- *
- */
 const generateReferralsFile = (filePath) => {
   const referrals = generateReferrals()
   const filedata = JSON.stringify(referrals, null, 2)
