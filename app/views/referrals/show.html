@@ -120,7 +120,7 @@
             value: {
               html: referral.teacher.nationalInsuranceNumber
             }
-          },
+          } if referral.teacher.nationalInsuranceNumber,
           {
             key: {
               html: "Teacher reference number (TRN)"
@@ -128,7 +128,7 @@
             value: {
               html: referral.teacher.trn
             }
-          },
+          } if referral.teacher.trn,
           {
             key: {
               html: "Does the teacher hold qualified teacher status?"
