@@ -14,11 +14,11 @@
         {{ title }} ({{referrals.length}})
       </h1>
 
-      <div class="app-referrals">
+      <div class="app-list">
         {% for referral in referrals %}
-          <div class="app-referrals__item">
+          <div class="app-list__item">
             <h2 class="govuk-heading-m">
-              <a href="/referral/{{referral.id}}">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
+              <a class="govuk-link--no-visited-state" href="/referral/{{referral.id}}">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
             </h2>
             {{ govukSummaryList({
               classes: 'govuk-summary-list--no-border app-summary-list--compact',

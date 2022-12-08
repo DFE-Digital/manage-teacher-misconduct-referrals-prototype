@@ -3,6 +3,9 @@
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
 //
 
+// components
+@import "../../views/components/list/list.scss";
+
 // Add extra styles here
 .app-summary-list--compact {
   @include govuk-font(16);
@@ -19,37 +22,3 @@
   }
 }
 
-.app-referrals {
-  margin-bottom: govuk-spacing(4);
-}
-
-.app-referrals__item {
-  border-bottom: 1px solid $govuk-border-colour;
-  padding-top: govuk-spacing(3);
-  padding-bottom: govuk-spacing(3);
-
-  &:first-of-type {
-    padding-top: 0;
-  }
-
-  h2 {
-    margin-bottom: govuk-spacing(1);
-  }
-
-  .govuk-summary-list {
-    @include govuk-font(16);
-    margin-bottom: 0;
-  }
-
-  .govuk-summary-list__key, .govuk-summary-list__value {
-    padding-bottom: govuk-spacing(0);
-  }
-
-  .govuk-summary-list__row:last-child {
-    margin-bottom: 0;
-
-    .govuk-summary-list__value {
-      margin-bottom: 0;
-    }
-  }
-}
