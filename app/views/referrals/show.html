@@ -112,7 +112,7 @@
             value: {
               html: referral.teacher.dateOfBirth | date
             }
-          },
+          } if referral.teacher.dateOfBirth,
           {
             key: {
               html: "National insurance number"
@@ -136,7 +136,7 @@
             value: {
               html: referral.teacher.hasQTS
             }
-          }
+          } if referral.teacher.hasQTS
         ]
       }) }}
 
@@ -253,7 +253,7 @@
             value: {
               html: referral.teacher.isTeachingSomewhereElse
             }
-          },
+          } if referral.teacher.isTeachingSomewhereElse,
           {
             key: {
               html: "New organisation name"
@@ -307,12 +307,20 @@
           } if allegationDetails,
           {
             key: {
+              html: "How the complaint has been dealt with"
+            },
+            value: {
+              html: referral.allegation.howComplaintHasBeenDealtWith | nl2br | safe
+            }
+          } if referral.allegation.howComplaintHasBeenDealtWith,
+          {
+            key: {
               html: "Have you told the Disclosure and Barring Service (DBS)?"
             },
             value: {
               html: referral.allegation.hasToldDBS
             }
-          },
+          } if referral.allegation.hasToldDBS,
           {
             key: {
               html: "Evidence and supporting information"
@@ -324,38 +332,41 @@
         ]
       }) }}
 
-      <h2 class="govuk-heading-m">
-        Previous allegation details
-      </h2>
+      {% if referral.previousAllegations %}
 
-      {%- set previousAllegationDetails -%}
-        {%- if referral.previousAllegations.file -%}
-          <a href="#">{{referral.previousAllegations.file.name}} {{referral.previousAllegations.file.size}}</a>
-        {%- else -%}
-          {{referral.previousAllegations.description | nl2br | safe}}
-        {%- endif -%}
-      {%- endset -%}
+        <h2 class="govuk-heading-m">
+          Previous allegation details
+        </h2>
 
-      {{ govukSummaryList({
-        rows: [
-          {
-            key: {
-              html: "Has there been any previous misconduct?"
+        {%- set previousAllegationDetails -%}
+          {%- if referral.previousAllegations.file -%}
+            <a href="#">{{referral.previousAllegations.file.name}} {{referral.previousAllegations.file.size}}</a>
+          {%- else -%}
+            {{referral.previousAllegations.description | nl2br | safe}}
+          {%- endif -%}
+        {%- endset -%}
+
+        {{ govukSummaryList({
+          rows: [
+            {
+              key: {
+                html: "Has there been any previous misconduct?"
+              },
+              value: {
+                html: referral.previousAllegations.hasPreviousAllegations
+              }
             },
-            value: {
-              html: referral.previousAllegations.hasPreviousAllegations
-            }
-          },
-          {
-            key: {
-              html: "Previous allegation details"
-            },
-            value: {
-              html: previousAllegationDetails
-            }
-          } if previousAllegationDetails
-        ]
-      }) }}
+            {
+              key: {
+                html: "Previous allegation details"
+              },
+              value: {
+                html: previousAllegationDetails
+              }
+            } if previousAllegationDetails
+          ]
+        }) }}
+      {% endif %}
 
       <h2 class="govuk-heading-m">
         Referrer details
@@ -365,10 +376,18 @@
         rows: [
           {
             key: {
-              html: "Full name"
+              html: "First name"
             },
             value: {
-              html: referral.referrer.name
+              html: referral.referrer.firstName
+            }
+          },
+          {
+            key: {
+              html: "Last name"
+            },
+            value: {
+              html: referral.referrer.lastName
             }
           },
           {
@@ -378,7 +397,15 @@
             value: {
               html: referral.referrer.jobTitle
             }
-          },
+          } if referral.referrer.jobTitle,
+          {
+            key: {
+              html: "Relationship to teacher"
+            },
+            value: {
+              html: referral.referrer.relationship
+            }
+          } if referral.referrer.relationship,
           {
             key: {
               html: "Phone number"
