@@ -36,18 +36,11 @@ const generateReferral = (params = {}) => {
   referral.referrer = _.get(params, 'referrer') || {}
   referral.referrer.firstName = _.get(params, 'referrer.firstName') || faker.name.firstName()
   referral.referrer.lastName = _.get(params, 'referrer.lastName') || faker.name.lastName()
+  referral.referrer.emailAddress = _.get(params, 'referrer.emailAddress') || `${referral.referrer.firstName.toLowerCase()}.${referral.referrer.lastName.toLowerCase()}@gmail.com`
   referral.referrer.phoneNumber = _.get(params, 'referrer.phoneNumber') || faker.phone.number('079## ### ###')
 
   if(userType == 'employer') {
     referral.referrer.jobTitle = _.get(params, 'referrer.jobTitle') || faker.helpers.arrayElement(jobTitles)
-  }
-
-  if(userType == 'public') {
-    referral.referrer.relationship = _.get(params, 'referrer.relationship') || faker.helpers.arrayElement([
-      'They are my child’s Maths teacher',
-      'They are my child’s English teacher',
-      'They are my child’s Science teacher'
-    ])
   }
 
   // Organisation
