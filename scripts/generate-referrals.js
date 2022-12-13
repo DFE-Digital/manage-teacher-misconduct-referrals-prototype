@@ -62,13 +62,11 @@ const generateReferral = (params = {}) => {
   if(userType == 'employer') {
     referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement([
       'Yes',
-      'No',
-      'I do not know'
+      'No'
     ])
     if(referral.teacher.hasAnotherName == 'Yes') {
       referral.teacher.otherName = _.get(params, 'teacher.otherName') || 'Bobsky'
     }
-    referral.teacher.dateOfBirth = _.get(params, 'teacher.dateOfBirth') || faker.date.past()
     referral.teacher.hasNationalInsuranceNumber = _.get(params, 'teacher.hasNationalInsuranceNumber') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -86,7 +84,7 @@ const generateReferral = (params = {}) => {
     referral.teacher.hasQTS = _.get(params, 'teacher.hasQTS') || faker.helpers.arrayElement([
       'Yes',
       'No',
-      'I do not know'
+      'I’m not sure'
     ])
   }
 
@@ -152,8 +150,7 @@ const generateReferral = (params = {}) => {
     }
     referral.teacher.roleDescriptionMethod = _.get(params, 'teacher.roleDescriptionMethod') || faker.helpers.arrayElement([
       'I’ll upload a job description',
-      'I’ll describe their main duties',
-      'I’ll do this later'
+      'I’ll describe their main duties'
     ])
     if(referral.teacher.roleDescriptionMethod == 'I’ll upload a job description') {
       referral.teacher.roleDescriptionFile = _.get(params, 'teacher.roleDescriptionFile') || {
@@ -165,11 +162,11 @@ const generateReferral = (params = {}) => {
       referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
     }
     referral.teacher.isTeachingSomewhereElse = _.get(params, 'teacher.isTeachingSomewhereElse') || faker.helpers.arrayElement([
-      'Yes, they’re teaching somewhere else',
-      'No, they’re not teaching somewhere else',
-      'I do not know'
+      'Yes',
+      'No',
+      'I’m not sure'
     ])
-    if(referral.teacher.isTeachingSomewhereElse == 'Yes, they’re teaching somewhere else') {
+    if(referral.teacher.isTeachingSomewhereElse == 'Yes') {
       referral.teacher.newOrganisation = _.get(params, 'teacher.newOrganisation') || {}
       referral.teacher.newOrganisation.name = _.get(params, 'teacher.newOrganisation.name') || faker.helpers.arrayElement(schoolNames)
       referral.teacher.newOrganisation.address = _.get(params, 'teacher.newOrganisation.address') || {
@@ -194,17 +191,16 @@ const generateReferral = (params = {}) => {
   referral.allegation = _.get(params, 'allegation') || {}
   if(userType == 'employer') {
     referral.allegation.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
-      'I’ll upload the allegation details',
-      'I’ll give details of the allegation',
-      'I’ll do this later'
+      'Upload file',
+      'Describe the allegation'
     ])
-    if(referral.allegation.method == 'I’ll upload the allegation details') {
+    if(referral.allegation.method == 'Upload file') {
       referral.allegation.file = _.get(params, 'allegation.file') || {
         name: 'allegation-details.pdf',
         size: '2MB'
       }
     }
-    if(referral.allegation.method == 'I’ll give details of the allegation') {
+    if(referral.allegation.method == 'Describe the allegation') {
       referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
     }
     referral.allegation.hasToldDBS = _.get(params, 'allegation.hasToldDBS') || faker.helpers.arrayElement([
@@ -217,28 +213,26 @@ const generateReferral = (params = {}) => {
     referral.allegation.howComplaintHasBeenDealtWith = _.get(params, 'allegation.howComplaintHasBeenDealtWith') || faker.lorem.paragraphs(3, '\n\n')
   }
 
-
   // Previous allegations
   if(userType == 'employer') {
     referral.previousAllegations = _.get(params, 'previousAllegations') || {}
     referral.previousAllegations.hasPreviousAllegations = _.get(params, 'previousAllegations.hasPreviousAllegations') || faker.helpers.arrayElement([
       'Yes',
       'No',
-      'I do not know'
+      'I’m not sure'
     ])
     if(referral.previousAllegations.hasPreviousAllegations == 'Yes') {
       referral.previousAllegations.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
-        'I’ll upload the previous misconduct details',
-        'I’ll give details of the previous misconduct',
-        'I’ll do this later'
+        'Upload file',
+        'Describe the previous allegations'
       ])
-      if(referral.previousAllegations.method == 'I’ll upload the previous misconduct details') {
+      if(referral.previousAllegations.method == 'Upload file') {
         referral.previousAllegations.file = _.get(params, 'previousAllegations.file') || {
           name: 'previous-misconduct-details.pdf',
           size: '2MB'
         }
       }
-      if(referral.previousAllegations.method == 'I’ll give details of the previous misconduct') {
+      if(referral.previousAllegations.method == 'Describe the previous allegations') {
         referral.previousAllegations.description = _.get(params, 'previousAllegations.description') || faker.lorem.paragraphs(3, '\n\n')
       }
     }
