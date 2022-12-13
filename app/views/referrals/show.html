@@ -163,7 +163,7 @@
         {%- if referral.teacher.roleDescriptionFile -%}
           <a href="#">{{referral.teacher.roleDescriptionFile.name}} {{referral.teacher.roleDescriptionFile.size}}</a>
         {%- else -%}
-          {{referral.teacher.roleDescription}}
+          {{referral.teacher.roleDescription | nl2br | safe}}
         {%- endif -%}
       {%- endset -%}
 
