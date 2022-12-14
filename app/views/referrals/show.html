@@ -136,16 +136,16 @@
         Role details
       </h2>
 
-      {% set organisationName %}
-        {% if referral.teacher.organisation.name %}
+      {%- set organisationName -%}
+        {%- if referral.teacher.organisation.name -%}
           {{referral.teacher.organisation.name}}
-        {% else %}
+        {%- else -%}
           {{referral.referrer.organisation.name}}
-        {% endif %}
-      {% endset %}
+        {%- endif -%}
+      {%- endset -%}
 
-      {% set organisationAddress %}
-        {% if referral.teacher.organisation.address %}
+      {%- set organisationAddress -%}
+        {%- if referral.teacher.organisation.address -%}
           {{appFormattedAddress({
             line1: referral.teacher.organisation.address.line1,
             line1: referral.teacher.organisation.address.line1,
@@ -154,10 +154,10 @@
             postcode: referral.teacher.organisation.address.postcode,
             country: referral.teacher.organisation.address.country
           })}}
-        {% else %}
+        {%- else -%}
           {{referrerOrganisationAddress | safe }}
-        {% endif %}
-      {% endset %}
+        {%- endif -%}
+      {%- endset -%}
 
       {%- set roleDescription -%}
         {%- if referral.teacher.roleDescriptionFile -%}
@@ -221,7 +221,7 @@
             value: {
               html: organisationName
             }
-          },
+          } if referral.teacher.organisation or referral.teacher.workedAtSameOrganisation == 'Yes',
           {
             key: {
               html: "Organisation address"
@@ -229,7 +229,7 @@
             value: {
               html: organisationAddress
             }
-          },
+          } if referral.teacher.organisation or referral.teacher.workedAtSameOrganisation == 'Yes',
           {
             key: {
               html: "Role description"

@@ -116,7 +116,24 @@ const generateReferral = (params = {}) => {
   // About their role
   referral.teacher.jobTitle = _.get(params, 'teacher.jobTitle') || faker.helpers.arrayElement(jobTitles)
 
+  referral.teacher.roleDescriptionMethod = _.get(params, 'teacher.roleDescriptionMethod') || faker.helpers.arrayElement([
+    'Upload file',
+    'Describe the work carried out'
+  ])
+
+  if(referral.teacher.roleDescriptionMethod == 'Upload file') {
+    referral.teacher.roleDescriptionFile = _.get(params, 'teacher.roleDescriptionFile') || {
+      name: 'job-description.pdf',
+      size: '1MB'
+    }
+  }
+  if(referral.teacher.roleDescriptionMethod == 'Describe the work carried out') {
+    referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
+  }
+
+
   if(userType == 'employer') {
+
     referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -124,22 +141,87 @@ const generateReferral = (params = {}) => {
     if(referral.teacher.hasJobStartDate == 'Yes') {
       referral.teacher.jobStartDate = _.get(params, 'teacher.jobStartDate') || faker.date.past()
     }
+
+    referral.teacher.workedAtSameOrganisation = _.get(params, 'teacher.workedAtSameOrganisation') || faker.helpers.arrayElement([
+      'Yes',
+      'No'
+    ])
+
+    if(referral.teacher.workedAtSameOrganisation == 'No') {
+
+      referral.teacher.knowWhereTheyWorked = _.get(params, 'teacher.knowWhereTheyWorked') || faker.helpers.arrayElement([
+        'Yes',
+        'No'
+      ])
+
+      if(referral.teacher.knowWhereTheyWorked == 'Yes') {
+        referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
+        referral.teacher.organisation.name = _.get(params, 'teacher.organisation.name') || faker.helpers.arrayElement(schoolNames)
+        referral.teacher.organisation.address = _.get(params, 'teacher.organisation.address') || {
+          line1: '1 The Avenue',
+          town: 'London',
+          postcode: 'W9 1ST'
+        }
+      }
+    }
+
     referral.teacher.areTheyStillEmployed = _.get(params, 'teacher.areTheyStillEmployed') || faker.helpers.arrayElement([
       'Yes',
       'They’re still employed but they’ve been suspended',
-      'No, they’ve left the organisation'
+      'No'
     ])
-    if(referral.teacher.areTheyStillEmployed == 'No, they’ve left the organisation') {
-      referral.teacher.jobEndDate = _.get(params, 'teacher.jobEndDate') || faker.date.past()
+
+    if(referral.teacher.areTheyStillEmployed == 'No') {
+
+      referral.teacher.knowWhenTheyLeftJob = _.get(params, 'teacher.knowWhenTheyLeftJob') || faker.helpers.arrayElement([
+        'Yes',
+        'No'
+      ])
+
+      if(referral.teacher.knowWhenTheyLeftJob == 'Yes') {
+        referral.teacher.jobEndDate = _.get(params, 'teacher.jobEndDate') || faker.date.past()
+      }
+
       referral.teacher.jobEndReason = _.get(params, 'teacher.jobEndReason') || faker.helpers.arrayElement([
         'Resigned',
         'Dismissed',
         'Retired',
-        'I do not know'
+        'I’m not sure'
       ])
     }
-    referral.teacher.doesWorkAtSameOrganisation = _.get(params, 'teacher.doesWorkAtSameOrganisation') || faker.helpers.arrayElement(['Yes', 'No'])
-    if(referral.teacher.doesWorkAtSameOrganisation == 'No') {
+
+    referral.teacher.isTeachingSomewhereElse = _.get(params, 'teacher.isTeachingSomewhereElse') || faker.helpers.arrayElement([
+      'Yes',
+      'No',
+      'I’m not sure'
+    ])
+
+    if(referral.teacher.isTeachingSomewhereElse == 'Yes') {
+
+      referral.teacher.knowWhereTheyWork = _.get(params, 'teacher.knowWhereTheyWork') || faker.helpers.arrayElement([
+        'Yes',
+        'No'
+      ])
+
+      if(referral.teacher.knowWhereTheyWork == 'Yes') {
+        referral.teacher.newOrganisation = _.get(params, 'teacher.newOrganisation') || {}
+        referral.teacher.newOrganisation.name = _.get(params, 'teacher.newOrganisation.name') || faker.helpers.arrayElement(schoolNames)
+        referral.teacher.newOrganisation.address = _.get(params, 'teacher.newOrganisation.address') || {
+          line1: '1 The Avenue',
+          town: 'Manchester',
+          postcode: 'M1 2PK'
+        }
+      }
+    }
+  }
+
+  if(userType == 'public') {
+    referral.teacher.knowWhereTheyWorked = _.get(params, 'teacher.knowWhereTheyWorked') || faker.helpers.arrayElement([
+      'Yes',
+      'No'
+    ])
+
+    if(referral.teacher.knowWhereTheyWorked == 'Yes') {
       referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
       referral.teacher.organisation.name = _.get(params, 'teacher.organisation.name') || faker.helpers.arrayElement(schoolNames)
       referral.teacher.organisation.address = _.get(params, 'teacher.organisation.address') || {
@@ -148,43 +230,6 @@ const generateReferral = (params = {}) => {
         postcode: 'W9 1ST'
       }
     }
-    referral.teacher.roleDescriptionMethod = _.get(params, 'teacher.roleDescriptionMethod') || faker.helpers.arrayElement([
-      'I’ll upload a job description',
-      'I’ll describe their main duties'
-    ])
-    if(referral.teacher.roleDescriptionMethod == 'I’ll upload a job description') {
-      referral.teacher.roleDescriptionFile = _.get(params, 'teacher.roleDescriptionFile') || {
-        name: 'job-description.pdf',
-        size: '1MB'
-      }
-    }
-    if(referral.teacher.descriptionMethod == 'I’ll describe their main duties') {
-      referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
-    }
-    referral.teacher.isTeachingSomewhereElse = _.get(params, 'teacher.isTeachingSomewhereElse') || faker.helpers.arrayElement([
-      'Yes',
-      'No',
-      'I’m not sure'
-    ])
-    if(referral.teacher.isTeachingSomewhereElse == 'Yes') {
-      referral.teacher.newOrganisation = _.get(params, 'teacher.newOrganisation') || {}
-      referral.teacher.newOrganisation.name = _.get(params, 'teacher.newOrganisation.name') || faker.helpers.arrayElement(schoolNames)
-      referral.teacher.newOrganisation.address = _.get(params, 'teacher.newOrganisation.address') || {
-        line1: '1 The Avenue',
-        town: 'Manchester',
-        postcode: 'M1 2PK'
-      }
-    }
-  }
-  if(userType == 'public') {
-    referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
-    referral.teacher.organisation.name = _.get(params, 'teacher.organisation.name') || faker.helpers.arrayElement(schoolNames)
-    referral.teacher.organisation.address = _.get(params, 'teacher.organisation.address') || {
-      line1: '1 The Avenue',
-      town: 'London',
-      postcode: 'W9 1ST'
-    }
-    referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
   }
 
   // Allegation
