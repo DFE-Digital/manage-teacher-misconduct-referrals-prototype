@@ -42,18 +42,18 @@
         })}}
       {% endset %}
 
-      {% set referrerOrganisationAddress %}
-        {% if referral.referrer.organisation.address %}
+      {% if referral.referrer.organisation %}
+        {% set referrerOrganisation %}
           {{appFormattedAddress({
-            line1: referral.referrer.organisation.address.line1,
+            name: referral.referrer.organisation.name,
             line1: referral.referrer.organisation.address.line1,
             line2: referral.referrer.organisation.address.line2,
             town: referral.referrer.organisation.address.town,
             postcode: referral.referrer.organisation.address.postcode,
             country: referral.referrer.organisation.address.country
           })}}
-        {% endif %}
-      {% endset %}
+        {% endset %}
+      {% endif %}
 
       {{ govukSummaryList({
         rows: [
@@ -136,28 +136,18 @@
         Role details
       </h2>
 
-      {%- set organisationName -%}
-        {%- if referral.teacher.organisation.name -%}
-          {{referral.teacher.organisation.name}}
-        {%- else -%}
-          {{referral.referrer.organisation.name}}
-        {%- endif -%}
-      {%- endset -%}
-
-      {%- set organisationAddress -%}
-        {%- if referral.teacher.organisation.address -%}
+      {% if referral.teacher.organisation %}
+        {%- set teacherOrganisation -%}
           {{appFormattedAddress({
-            line1: referral.teacher.organisation.address.line1,
+            name: referral.teacher.organisation.name,
             line1: referral.teacher.organisation.address.line1,
             line2: referral.teacher.organisation.address.line2,
             town: referral.teacher.organisation.address.town,
             postcode: referral.teacher.organisation.address.postcode,
             country: referral.teacher.organisation.address.country
           })}}
-        {%- else -%}
-          {{referrerOrganisationAddress | safe }}
-        {%- endif -%}
-      {%- endset -%}
+        {%- endset -%}
+      {% endif %}
 
       {%- set roleDescription -%}
         {%- if referral.teacher.roleDescriptionFile -%}
@@ -167,10 +157,10 @@
         {%- endif -%}
       {%- endset -%}
 
-      {% set newOrganisationAddress %}
-        {% if referral.teacher.newOrganisation.address %}
+      {% set newOrganisation %}
+        {% if referral.teacher.newOrganisation %}
           {{appFormattedAddress({
-            line1: referral.teacher.newOrganisation.address.line1,
+            name: referral.teacher.newOrganisation.address.name,
             line1: referral.teacher.newOrganisation.address.line1,
             line2: referral.teacher.newOrganisation.address.line2,
             town: referral.teacher.newOrganisation.address.town,
@@ -192,6 +182,14 @@
           },
           {
             key: {
+              html: "Main duties"
+            },
+            value: {
+              html: roleDescription
+            }
+          } if roleDescription | length,
+          {
+            key: {
               html: "Job start date"
             },
             value: {
@@ -208,7 +206,7 @@
           } if referral.teacher.jobEndDate,
           {
             key: {
-              html: "Reason for job ending"
+              html: "Reason for leaving job"
             },
             value: {
               html: referral.teacher.jobEndReason
@@ -216,52 +214,28 @@
           } if referral.teacher.jobEndReason,
           {
             key: {
-              html: "Organisation name"
+              html: "Employer at the time of the alleged misconduct"
             },
             value: {
-              html: organisationName
+              html: teacherOrganisation
             }
-          } if referral.teacher.organisation or referral.teacher.workedAtSameOrganisation == 'Yes',
+          } if referral.teacher.organisation,
           {
             key: {
-              html: "Organisation address"
+              html: "Employer at the time of the alleged misconduct"
             },
             value: {
-              html: organisationAddress
+              html: referrerOrganisation
             }
-          } if referral.teacher.organisation or referral.teacher.workedAtSameOrganisation == 'Yes',
+          } if referral.teacher.workedAtSameOrganisation == 'Yes',
           {
             key: {
-              html: "Role description"
+              html: "New employer"
             },
             value: {
-              html: roleDescription
+              html: newOrganisation
             }
-          } if roleDescription | length,
-          {
-            key: {
-              html: "Are they teaching somewhere else?"
-            },
-            value: {
-              html: referral.teacher.isTeachingSomewhereElse
-            }
-          } if referral.teacher.isTeachingSomewhereElse,
-          {
-            key: {
-              html: "New organisation name"
-            },
-            value: {
-              html: referral.teacher.newOrganisation.name
-            }
-          } if referral.teacher.newOrganisation.name,
-          {
-            key: {
-              html: "New organisation address"
-            },
-            value: {
-              html: newOrganisationAddress
-            }
-          } if referral.teacher.newOrganisation.address
+          } if referral.teacher.newOrganisation
         ]
       }) }}
 
@@ -408,20 +382,12 @@
           },
           {
             key: {
-              html: "Organisation name"
+              html: "Organisation"
             },
             value: {
-              html: referral.referrer.organisation.name
+              html: referrerOrganisation
             }
-          } if referral.referrer.organisation.name,
-          {
-            key: {
-              html: "Organisation address"
-            },
-            value: {
-              html: referrerOrganisationAddress
-            }
-          } if referral.referrer.organisation.address
+          } if referral.referrer.organisation
         ]
       }) }}
 
