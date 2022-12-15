@@ -1,6 +1,6 @@
 {% extends "layouts/main.html" %}
 
-{% set title = 'Prototype' %}
+{% set title = 'Sign in to manage teacher misconduct referrals' %}
 
 {% block content %}
 
@@ -12,7 +12,8 @@
 
       {{ govukButton({
         text: "Sign in",
-        href: '/referrals'
+        href: '/referrals',
+        isStartButton: true
       }) }}
     </div>
   </div>

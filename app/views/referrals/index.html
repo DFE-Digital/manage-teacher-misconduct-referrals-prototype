@@ -20,6 +20,13 @@
             <h2 class="govuk-heading-m">
               <a class="govuk-link--no-visited-state" href="/referral/{{referral.id}}">{{referral.teacher.firstName}} {{referral.teacher.lastName}}</a>
             </h2>
+
+            {% set referrer %}
+              {{referral.referrer.firstName}}
+              {{referral.referrer.lastName}}
+              ({{referral.type | lower}})
+            {% endset %}
+
             {{ govukSummaryList({
               classes: 'govuk-summary-list--no-border app-summary-list--compact',
               rows: [
@@ -36,7 +43,7 @@
                     text: "Referrer"
                   },
                   value: {
-                    html: referral.referrer.firstName + ' ' + referral.referrer.lastName
+                    html: referrer
                   }
                 }
               ]

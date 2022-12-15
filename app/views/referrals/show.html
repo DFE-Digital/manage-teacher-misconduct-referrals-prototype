@@ -28,9 +28,11 @@
         {{ title }}
       </h1>
 
-      {# <h2 class="govuk-heading-m">
-        About the teacher
-      </h2> #}
+      <p><a href="#" class="govuk-link--no-visited-state">Download all files (ZIP)</a></p>
+
+      <h2 class="govuk-heading-m govuk-!-margin-top-8">
+        Personal details
+      </h2>
 
       {% set teacherAddress %}
         {{appFormattedAddress({
@@ -123,7 +125,7 @@
           } if referral.teacher.trn,
           {
             key: {
-              html: "Does the teacher hold qualified teacher status?"
+              html: "Do they have qualified teacher status?"
             },
             value: {
               html: referral.teacher.hasQTS
@@ -132,7 +134,7 @@
         ]
       }) }}
 
-      <h2 class="govuk-heading-m">
+      <h2 class="govuk-heading-m govuk-!-margin-top-8">
         Role details
       </h2>
 
@@ -190,6 +192,14 @@
           } if roleDescription | length,
           {
             key: {
+              html: "Where they worked at the time of the alleged misconduct"
+            },
+            value: {
+              html: teacherOrganisation
+            }
+          } if referral.teacher.organisation,
+          {
+            key: {
               html: "Job start date"
             },
             value: {
@@ -206,7 +216,7 @@
           } if referral.teacher.jobEndDate,
           {
             key: {
-              html: "Reason for leaving job"
+              html: "Reason they left the job"
             },
             value: {
               html: referral.teacher.jobEndReason
@@ -214,15 +224,7 @@
           } if referral.teacher.jobEndReason,
           {
             key: {
-              html: "Employer at the time of the alleged misconduct"
-            },
-            value: {
-              html: teacherOrganisation
-            }
-          } if referral.teacher.organisation,
-          {
-            key: {
-              html: "Employer at the time of the alleged misconduct"
+              html: "Where they worked at the time of the alleged misconduct"
             },
             value: {
               html: referrerOrganisation
@@ -230,7 +232,7 @@
           } if referral.teacher.workedAtSameOrganisation == 'Yes',
           {
             key: {
-              html: "New employer"
+              html: "Where they’re currently working"
             },
             value: {
               html: newOrganisation
@@ -239,7 +241,7 @@
         ]
       }) }}
 
-      <h2 class="govuk-heading-m">
+      <h2 class="govuk-heading-m govuk-!-margin-top-8">
         Allegation details
       </h2>
 
@@ -249,16 +251,6 @@
         {%- else -%}
           {{referral.allegation.description | nl2br | safe}}
         {%- endif -%}
-      {%- endset -%}
-
-      {%- set evidence -%}
-        {% if referral.evidence.files.length  %}
-          <ul class="govuk-list govuk-list--bullet">
-            {% for file in referral.evidence.files %}
-              <li><a href="#">{{file.name}} ({{file.size}})</a></li>
-            {% endfor %}
-          </ul>
-        {% endif %}
       {%- endset -%}
 
       {{ govukSummaryList({
@@ -286,21 +278,25 @@
             value: {
               html: referral.allegation.hasToldDBS
             }
-          } if referral.allegation.hasToldDBS,
-          {
-            key: {
-              html: "Evidence and supporting information"
-            },
-            value: {
-              html: evidence
-            }
-          } if referral.evidence.files
+          } if referral.allegation.hasToldDBS
         ]
       }) }}
 
+      {% if referral.evidence.files.length  %}
+        <h2 class="govuk-heading-m govuk-!-margin-top-8">
+          Evidence and supporting information
+        </h2>
+
+        <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-6">
+          {% for file in referral.evidence.files %}
+            <li><a href="#">{{file.description}} ({{file.size}})</a></li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+
       {% if referral.previousAllegations %}
 
-        <h2 class="govuk-heading-m">
+        <h2 class="govuk-heading-m govuk-!-margin-top-8">
           Previous allegation details
         </h2>
 
@@ -334,7 +330,7 @@
         }) }}
       {% endif %}
 
-      <h2 class="govuk-heading-m">
+      <h2 class="govuk-heading-m govuk-!-margin-top-8">
         Referrer details
       </h2>
 

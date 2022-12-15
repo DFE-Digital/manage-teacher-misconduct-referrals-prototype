@@ -19,8 +19,8 @@ const schoolNames = [
 
 const generateReferral = (params = {}) => {
   const userType = params.type || faker.helpers.arrayElement([
-    'employer',
-    'public'
+    'Employer',
+    'Public'
   ])
 
 
@@ -39,12 +39,12 @@ const generateReferral = (params = {}) => {
   referral.referrer.emailAddress = _.get(params, 'referrer.emailAddress') || `${referral.referrer.firstName.toLowerCase()}.${referral.referrer.lastName.toLowerCase()}@gmail.com`
   referral.referrer.phoneNumber = _.get(params, 'referrer.phoneNumber') || faker.phone.number('079## ### ###')
 
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.referrer.jobTitle = _.get(params, 'referrer.jobTitle') || faker.helpers.arrayElement(jobTitles)
   }
 
   // Organisation
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.referrer.organisation = _.get(params, 'referrer.organisation') || {}
     referral.referrer.organisation.name = _.get(params, 'referrer.organisation.name') || faker.helpers.arrayElement(schoolNames)
     referral.referrer.organisation.address = _.get(params, 'referrer.organisation.address') || {
@@ -59,7 +59,7 @@ const generateReferral = (params = {}) => {
   referral.teacher.firstName = _.get(params, 'teacher.firstName') || faker.name.firstName()
   referral.teacher.lastName = _.get(params, 'teacher.lastName') || faker.name.lastName()
 
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -89,7 +89,7 @@ const generateReferral = (params = {}) => {
   }
 
   // Teacher contact details
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.teacher.hasEmailAddress = _.get(params, 'teacher.hasEmailAddress') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -132,16 +132,7 @@ const generateReferral = (params = {}) => {
   }
 
 
-  if(userType == 'employer') {
-
-    referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement([
-      'Yes',
-      'No'
-    ])
-    if(referral.teacher.hasJobStartDate == 'Yes') {
-      referral.teacher.jobStartDate = _.get(params, 'teacher.jobStartDate') || faker.date.past()
-    }
-
+  if(userType == 'Employer') {
     referral.teacher.workedAtSameOrganisation = _.get(params, 'teacher.workedAtSameOrganisation') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -163,6 +154,14 @@ const generateReferral = (params = {}) => {
           postcode: 'W9 1ST'
         }
       }
+    }
+
+    referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement([
+      'Yes',
+      'No'
+    ])
+    if(referral.teacher.hasJobStartDate == 'Yes') {
+      referral.teacher.jobStartDate = _.get(params, 'teacher.jobStartDate') || faker.date.past()
     }
 
     referral.teacher.areTheyStillEmployed = _.get(params, 'teacher.areTheyStillEmployed') || faker.helpers.arrayElement([
@@ -190,13 +189,13 @@ const generateReferral = (params = {}) => {
       ])
     }
 
-    referral.teacher.isTeachingSomewhereElse = _.get(params, 'teacher.isTeachingSomewhereElse') || faker.helpers.arrayElement([
+    referral.teacher.isWorkingSomewhereElse = _.get(params, 'teacher.isWorkingSomewhereElse') || faker.helpers.arrayElement([
       'Yes',
       'No',
       'I’m not sure'
     ])
 
-    if(referral.teacher.isTeachingSomewhereElse == 'Yes') {
+    if(referral.teacher.isWorkingSomewhereElse == 'Yes') {
 
       referral.teacher.knowWhereTheyWork = _.get(params, 'teacher.knowWhereTheyWork') || faker.helpers.arrayElement([
         'Yes',
@@ -215,7 +214,7 @@ const generateReferral = (params = {}) => {
     }
   }
 
-  if(userType == 'public') {
+  if(userType == 'Public') {
     referral.teacher.knowWhereTheyWorked = _.get(params, 'teacher.knowWhereTheyWorked') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -234,32 +233,32 @@ const generateReferral = (params = {}) => {
 
   // Allegation
   referral.allegation = _.get(params, 'allegation') || {}
-  if(userType == 'employer') {
-    referral.allegation.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
-      'Upload file',
-      'Describe the allegation'
-    ])
-    if(referral.allegation.method == 'Upload file') {
-      referral.allegation.file = _.get(params, 'allegation.file') || {
-        name: 'allegation-details.pdf',
-        size: '2MB'
-      }
+
+  referral.allegation.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
+    'Upload file',
+    'Describe the allegation'
+  ])
+  if(referral.allegation.method == 'Upload file') {
+    referral.allegation.file = _.get(params, 'allegation.file') || {
+      name: 'allegation-details.pdf',
+      size: '2MB'
     }
-    if(referral.allegation.method == 'Describe the allegation') {
-      referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
-    }
+  }
+  if(referral.allegation.method == 'Describe the allegation') {
+    referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
+  }
+  if(userType == 'Employer') {
     referral.allegation.hasToldDBS = _.get(params, 'allegation.hasToldDBS') || faker.helpers.arrayElement([
       'Yes, I’ve told DBS',
       'No'
     ])
   }
-  if(userType == 'public') {
-    referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
+  if(userType == 'Public') {
     referral.allegation.howComplaintHasBeenDealtWith = _.get(params, 'allegation.howComplaintHasBeenDealtWith') || faker.lorem.paragraphs(3, '\n\n')
   }
 
   // Previous allegations
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.previousAllegations = _.get(params, 'previousAllegations') || {}
     referral.previousAllegations.hasPreviousAllegations = _.get(params, 'previousAllegations.hasPreviousAllegations') || faker.helpers.arrayElement([
       'Yes',
@@ -291,21 +290,17 @@ const generateReferral = (params = {}) => {
   ])
   if(referral.evidence.hasEvidence == 'Yes') {
     referral.evidence.files = [{
-      name: 'main-investigation.pdf',
+      name: 'main.pdf',
       size: '1MB',
-      category: 'Documents of internal investigations and outcomes'
+      description: 'main-investigation.pdf'
     }, {
-      name: 'police-investigation.pdf',
+      name: 'polic-xyz.pdf',
       size: '3MB',
-      category: 'Police investigations and reports'
+      description: 'police-investigation.pdf'
     }, {
-      name: 'signed-withness-statements.pdf',
+      name: 'statements.pdf',
       size: '2MB',
-      category: 'Signed witness statements'
-    }, {
-      name: 'cctv-footage.mp4',
-      size: '2MB',
-      category: 'File notes concerning conduct, behaviour and attitude'
+      description: 'signed-witness-statements.pdf'
     }]
   }
 
@@ -315,10 +310,45 @@ const generateReferral = (params = {}) => {
 const generateReferrals = () => {
   const referrals = []
 
-  referrals.push(generateReferral({ type: 'employer'}))
-  referrals.push(generateReferral({ type: 'public'}))
-  referrals.push(generateReferral({ type: 'employer'}))
-  referrals.push(generateReferral({ type: 'public'}))
+  referrals.push(generateReferral({
+    type: 'Employer',
+    referralDate: faker.date.recent(),
+    teacher: {
+      firstName: 'Tony',
+      lastName: 'Stark',
+      workedAtSameOrganisation: 'No',
+      knowWhereTheyWorked: 'Yes',
+      organisation: {
+        name: 'Boom School',
+        address: {
+          line1: '1 The Avenue',
+          town: 'London',
+          postcode: 'W9 1ST'
+        }
+      },
+      hasJobStartDate: 'Yes',
+      jobStartDate: faker.date.past(),
+      areTheyStillEmployed: 'No',
+      knowWhenTheyLeftJob: 'Yes',
+      jobEndDate: faker.date.past(),
+      jobEndReason: 'Dismissed',
+      isWorkingSomewhereElse: 'Yes',
+      knowWhereTheyWork: 'Yes',
+      newOrganisation: {
+        name: 'Modern Art Plc',
+        address: {
+          line1: '1 The Avenue',
+          town: 'Manchester',
+          postcode: 'M1 2PK'
+        }
+      }
+    }
+  }))
+
+
+  referrals.push(generateReferral({ type: 'Public'}))
+  referrals.push(generateReferral({ type: 'Employer'}))
+  referrals.push(generateReferral({ type: 'Public'}))
   for(let i = 0; i < 21; i++) {
     referrals.push(generateReferral())
   }
