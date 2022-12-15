@@ -19,8 +19,8 @@ const schoolNames = [
 
 const generateReferral = (params = {}) => {
   const userType = params.type || faker.helpers.arrayElement([
-    'employer',
-    'public'
+    'Employer',
+    'Public'
   ])
 
 
@@ -39,12 +39,12 @@ const generateReferral = (params = {}) => {
   referral.referrer.emailAddress = _.get(params, 'referrer.emailAddress') || `${referral.referrer.firstName.toLowerCase()}.${referral.referrer.lastName.toLowerCase()}@gmail.com`
   referral.referrer.phoneNumber = _.get(params, 'referrer.phoneNumber') || faker.phone.number('079## ### ###')
 
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.referrer.jobTitle = _.get(params, 'referrer.jobTitle') || faker.helpers.arrayElement(jobTitles)
   }
 
   // Organisation
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.referrer.organisation = _.get(params, 'referrer.organisation') || {}
     referral.referrer.organisation.name = _.get(params, 'referrer.organisation.name') || faker.helpers.arrayElement(schoolNames)
     referral.referrer.organisation.address = _.get(params, 'referrer.organisation.address') || {
@@ -59,16 +59,14 @@ const generateReferral = (params = {}) => {
   referral.teacher.firstName = _.get(params, 'teacher.firstName') || faker.name.firstName()
   referral.teacher.lastName = _.get(params, 'teacher.lastName') || faker.name.lastName()
 
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement([
       'Yes',
-      'No',
-      'I do not know'
+      'No'
     ])
     if(referral.teacher.hasAnotherName == 'Yes') {
       referral.teacher.otherName = _.get(params, 'teacher.otherName') || 'Bobsky'
     }
-    referral.teacher.dateOfBirth = _.get(params, 'teacher.dateOfBirth') || faker.date.past()
     referral.teacher.hasNationalInsuranceNumber = _.get(params, 'teacher.hasNationalInsuranceNumber') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -86,12 +84,12 @@ const generateReferral = (params = {}) => {
     referral.teacher.hasQTS = _.get(params, 'teacher.hasQTS') || faker.helpers.arrayElement([
       'Yes',
       'No',
-      'I do not know'
+      'I’m not sure'
     ])
   }
 
   // Teacher contact details
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.teacher.hasEmailAddress = _.get(params, 'teacher.hasEmailAddress') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -118,7 +116,46 @@ const generateReferral = (params = {}) => {
   // About their role
   referral.teacher.jobTitle = _.get(params, 'teacher.jobTitle') || faker.helpers.arrayElement(jobTitles)
 
-  if(userType == 'employer') {
+  referral.teacher.roleDescriptionMethod = _.get(params, 'teacher.roleDescriptionMethod') || faker.helpers.arrayElement([
+    'Upload file',
+    'Describe the work carried out'
+  ])
+
+  if(referral.teacher.roleDescriptionMethod == 'Upload file') {
+    referral.teacher.roleDescriptionFile = _.get(params, 'teacher.roleDescriptionFile') || {
+      name: 'job-description.pdf',
+      size: '1MB'
+    }
+  }
+  if(referral.teacher.roleDescriptionMethod == 'Describe the work carried out') {
+    referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
+  }
+
+
+  if(userType == 'Employer') {
+    referral.teacher.workedAtSameOrganisation = _.get(params, 'teacher.workedAtSameOrganisation') || faker.helpers.arrayElement([
+      'Yes',
+      'No'
+    ])
+
+    if(referral.teacher.workedAtSameOrganisation == 'No') {
+
+      referral.teacher.knowWhereTheyWorked = _.get(params, 'teacher.knowWhereTheyWorked') || faker.helpers.arrayElement([
+        'Yes',
+        'No'
+      ])
+
+      if(referral.teacher.knowWhereTheyWorked == 'Yes') {
+        referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
+        referral.teacher.organisation.name = _.get(params, 'teacher.organisation.name') || faker.helpers.arrayElement(schoolNames)
+        referral.teacher.organisation.address = _.get(params, 'teacher.organisation.address') || {
+          line1: '1 The Avenue',
+          town: 'London',
+          postcode: 'W9 1ST'
+        }
+      }
+    }
+
     referral.teacher.hasJobStartDate = _.get(params, 'teacher.hasJobStartDate') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -126,22 +163,64 @@ const generateReferral = (params = {}) => {
     if(referral.teacher.hasJobStartDate == 'Yes') {
       referral.teacher.jobStartDate = _.get(params, 'teacher.jobStartDate') || faker.date.past()
     }
+
     referral.teacher.areTheyStillEmployed = _.get(params, 'teacher.areTheyStillEmployed') || faker.helpers.arrayElement([
       'Yes',
       'They’re still employed but they’ve been suspended',
-      'No, they’ve left the organisation'
+      'No'
     ])
-    if(referral.teacher.areTheyStillEmployed == 'No, they’ve left the organisation') {
-      referral.teacher.jobEndDate = _.get(params, 'teacher.jobEndDate') || faker.date.past()
+
+    if(referral.teacher.areTheyStillEmployed == 'No') {
+
+      referral.teacher.knowWhenTheyLeftJob = _.get(params, 'teacher.knowWhenTheyLeftJob') || faker.helpers.arrayElement([
+        'Yes',
+        'No'
+      ])
+
+      if(referral.teacher.knowWhenTheyLeftJob == 'Yes') {
+        referral.teacher.jobEndDate = _.get(params, 'teacher.jobEndDate') || faker.date.past()
+      }
+
       referral.teacher.jobEndReason = _.get(params, 'teacher.jobEndReason') || faker.helpers.arrayElement([
         'Resigned',
         'Dismissed',
         'Retired',
-        'I do not know'
+        'I’m not sure'
       ])
     }
-    referral.teacher.doesWorkAtSameOrganisation = _.get(params, 'teacher.doesWorkAtSameOrganisation') || faker.helpers.arrayElement(['Yes', 'No'])
-    if(referral.teacher.doesWorkAtSameOrganisation == 'No') {
+
+    referral.teacher.isWorkingSomewhereElse = _.get(params, 'teacher.isWorkingSomewhereElse') || faker.helpers.arrayElement([
+      'Yes',
+      'No',
+      'I’m not sure'
+    ])
+
+    if(referral.teacher.isWorkingSomewhereElse == 'Yes') {
+
+      referral.teacher.knowWhereTheyWork = _.get(params, 'teacher.knowWhereTheyWork') || faker.helpers.arrayElement([
+        'Yes',
+        'No'
+      ])
+
+      if(referral.teacher.knowWhereTheyWork == 'Yes') {
+        referral.teacher.newOrganisation = _.get(params, 'teacher.newOrganisation') || {}
+        referral.teacher.newOrganisation.name = _.get(params, 'teacher.newOrganisation.name') || faker.helpers.arrayElement(schoolNames)
+        referral.teacher.newOrganisation.address = _.get(params, 'teacher.newOrganisation.address') || {
+          line1: '1 The Avenue',
+          town: 'Manchester',
+          postcode: 'M1 2PK'
+        }
+      }
+    }
+  }
+
+  if(userType == 'Public') {
+    referral.teacher.knowWhereTheyWorked = _.get(params, 'teacher.knowWhereTheyWorked') || faker.helpers.arrayElement([
+      'Yes',
+      'No'
+    ])
+
+    if(referral.teacher.knowWhereTheyWorked == 'Yes') {
       referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
       referral.teacher.organisation.name = _.get(params, 'teacher.organisation.name') || faker.helpers.arrayElement(schoolNames)
       referral.teacher.organisation.address = _.get(params, 'teacher.organisation.address') || {
@@ -150,95 +229,54 @@ const generateReferral = (params = {}) => {
         postcode: 'W9 1ST'
       }
     }
-    referral.teacher.roleDescriptionMethod = _.get(params, 'teacher.roleDescriptionMethod') || faker.helpers.arrayElement([
-      'I’ll upload a job description',
-      'I’ll describe their main duties',
-      'I’ll do this later'
-    ])
-    if(referral.teacher.roleDescriptionMethod == 'I’ll upload a job description') {
-      referral.teacher.roleDescriptionFile = _.get(params, 'teacher.roleDescriptionFile') || {
-        name: 'job-description.pdf',
-        size: '1MB'
-      }
-    }
-    if(referral.teacher.descriptionMethod == 'I’ll describe their main duties') {
-      referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
-    }
-    referral.teacher.isTeachingSomewhereElse = _.get(params, 'teacher.isTeachingSomewhereElse') || faker.helpers.arrayElement([
-      'Yes, they’re teaching somewhere else',
-      'No, they’re not teaching somewhere else',
-      'I do not know'
-    ])
-    if(referral.teacher.isTeachingSomewhereElse == 'Yes, they’re teaching somewhere else') {
-      referral.teacher.newOrganisation = _.get(params, 'teacher.newOrganisation') || {}
-      referral.teacher.newOrganisation.name = _.get(params, 'teacher.newOrganisation.name') || faker.helpers.arrayElement(schoolNames)
-      referral.teacher.newOrganisation.address = _.get(params, 'teacher.newOrganisation.address') || {
-        line1: '1 The Avenue',
-        town: 'Manchester',
-        postcode: 'M1 2PK'
-      }
-    }
-  }
-  if(userType == 'public') {
-    referral.teacher.organisation = _.get(params, 'teacher.organisation') || {}
-    referral.teacher.organisation.name = _.get(params, 'teacher.organisation.name') || faker.helpers.arrayElement(schoolNames)
-    referral.teacher.organisation.address = _.get(params, 'teacher.organisation.address') || {
-      line1: '1 The Avenue',
-      town: 'London',
-      postcode: 'W9 1ST'
-    }
-    referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
   }
 
   // Allegation
   referral.allegation = _.get(params, 'allegation') || {}
-  if(userType == 'employer') {
-    referral.allegation.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
-      'I’ll upload the allegation details',
-      'I’ll give details of the allegation',
-      'I’ll do this later'
-    ])
-    if(referral.allegation.method == 'I’ll upload the allegation details') {
-      referral.allegation.file = _.get(params, 'allegation.file') || {
-        name: 'allegation-details.pdf',
-        size: '2MB'
-      }
+
+  referral.allegation.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
+    'Upload file',
+    'Describe the allegation'
+  ])
+  if(referral.allegation.method == 'Upload file') {
+    referral.allegation.file = _.get(params, 'allegation.file') || {
+      name: 'allegation-details.pdf',
+      size: '2MB'
     }
-    if(referral.allegation.method == 'I’ll give details of the allegation') {
-      referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
-    }
+  }
+  if(referral.allegation.method == 'Describe the allegation') {
+    referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
+  }
+  if(userType == 'Employer') {
     referral.allegation.hasToldDBS = _.get(params, 'allegation.hasToldDBS') || faker.helpers.arrayElement([
       'Yes, I’ve told DBS',
       'No'
     ])
   }
-  if(userType == 'public') {
-    referral.allegation.description = _.get(params, 'allegation.description') || faker.lorem.paragraphs(3, '\n\n')
+  if(userType == 'Public') {
     referral.allegation.howComplaintHasBeenDealtWith = _.get(params, 'allegation.howComplaintHasBeenDealtWith') || faker.lorem.paragraphs(3, '\n\n')
   }
 
-
   // Previous allegations
-  if(userType == 'employer') {
+  if(userType == 'Employer') {
     referral.previousAllegations = _.get(params, 'previousAllegations') || {}
     referral.previousAllegations.hasPreviousAllegations = _.get(params, 'previousAllegations.hasPreviousAllegations') || faker.helpers.arrayElement([
       'Yes',
       'No',
-      'I do not know'
+      'I’m not sure'
     ])
     if(referral.previousAllegations.hasPreviousAllegations == 'Yes') {
       referral.previousAllegations.method = _.get(params, 'allegation.method') || faker.helpers.arrayElement([
-        'I’ll upload the previous misconduct details',
-        'I’ll give details of the previous misconduct',
-        'I’ll do this later'
+        'Upload file',
+        'Describe the previous allegations'
       ])
-      if(referral.previousAllegations.method == 'I’ll upload the previous misconduct details') {
+      if(referral.previousAllegations.method == 'Upload file') {
         referral.previousAllegations.file = _.get(params, 'previousAllegations.file') || {
           name: 'previous-misconduct-details.pdf',
           size: '2MB'
         }
       }
-      if(referral.previousAllegations.method == 'I’ll give details of the previous misconduct') {
+      if(referral.previousAllegations.method == 'Describe the previous allegations') {
         referral.previousAllegations.description = _.get(params, 'previousAllegations.description') || faker.lorem.paragraphs(3, '\n\n')
       }
     }
@@ -252,21 +290,17 @@ const generateReferral = (params = {}) => {
   ])
   if(referral.evidence.hasEvidence == 'Yes') {
     referral.evidence.files = [{
-      name: 'main-investigation.pdf',
+      name: 'main.pdf',
       size: '1MB',
-      category: 'Documents of internal investigations and outcomes'
+      description: 'main-investigation.pdf'
     }, {
-      name: 'police-investigation.pdf',
+      name: 'polic-xyz.pdf',
       size: '3MB',
-      category: 'Police investigations and reports'
+      description: 'police-investigation.pdf'
     }, {
-      name: 'signed-withness-statements.pdf',
+      name: 'statements.pdf',
       size: '2MB',
-      category: 'Signed witness statements'
-    }, {
-      name: 'cctv-footage.mp4',
-      size: '2MB',
-      category: 'File notes concerning conduct, behaviour and attitude'
+      description: 'signed-witness-statements.pdf'
     }]
   }
 
@@ -276,10 +310,45 @@ const generateReferral = (params = {}) => {
 const generateReferrals = () => {
   const referrals = []
 
-  referrals.push(generateReferral({ type: 'employer'}))
-  referrals.push(generateReferral({ type: 'public'}))
-  referrals.push(generateReferral({ type: 'employer'}))
-  referrals.push(generateReferral({ type: 'public'}))
+  referrals.push(generateReferral({
+    type: 'Employer',
+    referralDate: faker.date.recent(),
+    teacher: {
+      firstName: 'Tony',
+      lastName: 'Stark',
+      workedAtSameOrganisation: 'No',
+      knowWhereTheyWorked: 'Yes',
+      organisation: {
+        name: 'Boom School',
+        address: {
+          line1: '1 The Avenue',
+          town: 'London',
+          postcode: 'W9 1ST'
+        }
+      },
+      hasJobStartDate: 'Yes',
+      jobStartDate: faker.date.past(),
+      areTheyStillEmployed: 'No',
+      knowWhenTheyLeftJob: 'Yes',
+      jobEndDate: faker.date.past(),
+      jobEndReason: 'Dismissed',
+      isWorkingSomewhereElse: 'Yes',
+      knowWhereTheyWork: 'Yes',
+      newOrganisation: {
+        name: 'Modern Art Plc',
+        address: {
+          line1: '1 The Avenue',
+          town: 'Manchester',
+          postcode: 'M1 2PK'
+        }
+      }
+    }
+  }))
+
+
+  referrals.push(generateReferral({ type: 'Public'}))
+  referrals.push(generateReferral({ type: 'Employer'}))
+  referrals.push(generateReferral({ type: 'Public'}))
   for(let i = 0; i < 21; i++) {
     referrals.push(generateReferral())
   }
