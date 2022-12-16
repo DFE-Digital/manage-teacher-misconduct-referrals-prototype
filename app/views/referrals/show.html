@@ -158,7 +158,7 @@
 
         {%- set roleDescription -%}
           {%- if referral.teacher.roleDescriptionFile -%}
-            <a href="#">{{referral.teacher.roleDescriptionFile.name}} {{referral.teacher.roleDescriptionFile.size}}</a>
+            <a href="#">{{referral.teacher.roleDescriptionFile.name}} ({{referral.teacher.roleDescriptionFile.size}})</a>
           {%- else -%}
             {{referral.teacher.roleDescription | nl2br | safe}}
           {%- endif -%}
@@ -256,7 +256,7 @@
 
         {%- set allegationDetails -%}
           {%- if referral.allegation.file -%}
-            <a href="#">{{referral.allegation.file.name}} {{referral.allegation.file.size}}</a>
+            <a href="#">{{referral.allegation.file.name}} ({{referral.allegation.file.size}})</a>
           {%- else -%}
             {{referral.allegation.description | nl2br | safe}}
           {%- endif -%}
