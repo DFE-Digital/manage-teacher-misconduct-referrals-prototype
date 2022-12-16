@@ -24,7 +24,7 @@
             {% set referrer %}
               {{referral.referrer.firstName}}
               {{referral.referrer.lastName}}
-              ({{referral.type | lower}})
+              {# ({{referral.type | lower}}) #}
             {% endset %}
 
             {{ govukSummaryList({

@@ -22,3 +22,10 @@
   }
 }
 
+.app-panel {
+  padding-top: govuk-spacing(5);
+  padding-bottom: govuk-spacing(6);
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -128,7 +128,7 @@ const generateReferral = (params = {}) => {
     }
   }
   if(referral.teacher.roleDescriptionMethod == 'Describe the work carried out') {
-    referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(3, '\n\n')
+    referral.teacher.roleDescription = _.get(params, 'teacher.roleDescription') || faker.lorem.paragraphs(2, '\n\n')
   }
 
 
@@ -254,7 +254,7 @@ const generateReferral = (params = {}) => {
     ])
   }
   if(userType == 'Public') {
-    referral.allegation.howComplaintHasBeenDealtWith = _.get(params, 'allegation.howComplaintHasBeenDealtWith') || faker.lorem.paragraphs(3, '\n\n')
+    referral.allegation.howComplaintHasBeenDealtWith = _.get(params, 'allegation.howComplaintHasBeenDealtWith') || faker.lorem.paragraphs(2, '\n\n')
   }
 
   // Previous allegations
@@ -342,13 +342,32 @@ const generateReferrals = () => {
           postcode: 'M1 2PK'
         }
       }
+    },
+    evidence: {
+      hasEvidence: 'Yes'
     }
   }))
 
 
-  referrals.push(generateReferral({ type: 'Public'}))
-  referrals.push(generateReferral({ type: 'Employer'}))
-  referrals.push(generateReferral({ type: 'Public'}))
+  referrals.push(generateReferral({
+    type: 'Public',
+    evidence: {
+      hasEvidence: 'Yes'
+    }
+  }))
+  referrals.push(generateReferral({
+    type: 'Employer',
+    evidence: {
+      hasEvidence: 'Yes'
+    }
+  }))
+  referrals.push(generateReferral({
+    type: 'Public',
+    evidence: {
+      hasEvidence: 'Yes'
+    }
+  }))
+
   for(let i = 0; i < 21; i++) {
     referrals.push(generateReferral())
   }
