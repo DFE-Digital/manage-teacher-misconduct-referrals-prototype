@@ -292,15 +292,15 @@ const generateReferral = (params = {}) => {
     referral.evidence.files = [{
       name: 'main.pdf',
       size: '1MB',
-      description: 'main-investigation.pdf'
+      description: 'Main investigation'
     }, {
       name: 'polic-xyz.pdf',
       size: '3MB',
-      description: 'police-investigation.pdf'
+      description: 'Police investigation'
     }, {
       name: 'statements.pdf',
       size: '2MB',
-      description: 'signed-witness-statements.pdf'
+      description: 'Signed witness statements'
     }]
   }
 

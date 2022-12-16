@@ -297,7 +297,10 @@
           <h2 class="govuk-heading-m">Evidence and supporting information</h2>
           <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
             {% for file in referral.evidence.files %}
-              <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}><a href="#">{{file.description}} ({{file.size}})</a></li>
+              <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}>
+                {{file.description}}<br>
+                <a href="#">{{file.name}} ({{file.size}})</a>
+                </li>
             {% endfor %}
           </ul>
         </div>
