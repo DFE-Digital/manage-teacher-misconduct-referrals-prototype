@@ -298,7 +298,6 @@
           <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
             {% for file in referral.evidence.files %}
               <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}>
-                {{file.description}}<br>
                 <a href="#">{{file.name}} ({{file.size}})</a>
                 </li>
             {% endfor %}
