@@ -8,11 +8,12 @@
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <h1 class="govuk-heading-l">{{ title }}</h1>
 
-      {{ govukButton({
-        text: "Sign in",
-        href: '/referrals',
-        isStartButton: true
-      }) }}
+      <form method="post" action="/account/sign-in">
+        {{ govukButton({
+          text: "Sign in",
+          isStartButton: true
+        }) }}
+      </form>
     </div>
   </div>
 
