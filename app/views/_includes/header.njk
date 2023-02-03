@@ -11,9 +11,11 @@
   navigation: [
     {
       href: "/account/sign-out",
+      text: "Sign in"
+    } if not data.user,
+    {
+      href: "/account/sign-out",
       text: "Sign out"
-    }
-  ] if data.user
+    } if data.user
+  ]
 }) }}
-
-{{data.user | log}}

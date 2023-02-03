@@ -6,6 +6,22 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const router = govukPrototypeKit.requests.setupRouter()
 
+const flash = require('connect-flash')
+router.use(flash())
+
+router.all('*', (req, res, next) => {
+  res.locals.flash = req.flash('success')
+  next()
+})
+
+router.get('/', (req, res) => {
+  if(!req.session.data.user) {
+    res.redirect('/account/sign-in')
+  } else {
+    res.redirect('/referrals')
+  }
+})
+
 router.post('/account/sign-in', (req, res) => {
   req.session.data.user = {}
   res.redirect('/referrals')
@@ -14,6 +30,16 @@ router.post('/account/sign-in', (req, res) => {
 router.get('/account/sign-out', (req, res) => {
   req.session.data.user = null
   res.redirect('/')
+})
+
+router.post('/account/password/reset', (req, res) => {
+  res.redirect('/account/password/reset/confirmation')
+})
+
+router.post('/account/password/edit', (req, res) => {
+  req.flash('success', 'Password updated')
+  req.session.data.user = {}
+  res.redirect('/referrals')
 })
 
 router.get('/referrals', (req, res) => {

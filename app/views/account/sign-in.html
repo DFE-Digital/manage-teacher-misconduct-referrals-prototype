@@ -1,13 +1,7 @@
 {% extends "layouts/main.html" %}
 
-{% set title = 'Reset your password' %}
+{% set title = 'Sign in' %}
 
-{% block beforeContent %}
-  {{ govukBackLink({
-    text: "Back",
-    href: "/"
-  }) }}
-{% endblock %}
 
 {% block content %}
 
@@ -15,7 +9,9 @@
     <div class="govuk-grid-column-two-thirds-from-desktop">
       <h1 class="govuk-heading-l">{{ title }}</h1>
 
-      <form method="post" action="/reset-password/confirmation">
+      <p><a href="/account/password/reset">Reset your password</a> if you’ve forgotten it.</p>
+
+      <form method="post">
 
         {{ govukInput({
           id: "[signin][emailAddress]",
@@ -26,8 +22,20 @@
           }
         }) }}
 
+        {{ govukInput({
+          id: "[signin][password]",
+          name: "[signin][password]",
+          type: "password",
+          label: {
+            text: "Password",
+            classes: "govuk-label--m"
+          }
+        }) }}
+
+
+
         {{ govukButton({
-          text: "Reset password"
+          text: "Sign in"
         }) }}
       </form>
     </div>
