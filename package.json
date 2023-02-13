@@ -7,6 +7,7 @@
     "generate-data": "node ./scripts/generate-referrals.js"
   },
   "dependencies": {
+    "connect-flash": "^0.1.1",
     "@faker-js/faker": "^7.4.0",
     "govuk-frontend": "^4.4.1",
     "govuk-prototype-kit": "^13.1.0",

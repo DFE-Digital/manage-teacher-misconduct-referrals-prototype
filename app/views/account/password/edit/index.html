@@ -1,0 +1,40 @@
+{% extends "layouts/main.html" %}
+
+{% set title = 'Change your password' %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+      <h1 class="govuk-heading-l">{{ title }}</h1>
+
+      <form method="post">
+
+        {{ govukInput({
+          id: "[changePassword][password]",
+          name: "[changePassword][password]",
+          type: "password",
+          label: {
+            text: "New password",
+            classes: "govuk-label--m"
+          }
+        }) }}
+
+        {{ govukInput({
+          id: "[changePassword][confirmPassword]",
+          name: "[changePassword][confirmPassword]",
+          type: "password",
+          label: {
+            text: "Confirm new password",
+            classes: "govuk-label--m"
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Update password"
+        }) }}
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

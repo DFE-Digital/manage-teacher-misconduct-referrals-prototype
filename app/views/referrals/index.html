@@ -3,15 +3,21 @@
 {% set title = 'Referrals' %}
 
 {% block pageTitle %}
-{{title}} – {{serviceName}} – GOV.UK
+  {{title}} – {{serviceName}} – GOV.UK
 {% endblock %}
 
-{% block content %}
 
-  {{data | log}}
+
+{% block content %}
+  {{ govukNotificationBanner({
+    html: "<h2 class=\"govuk-heading-m\">"+flash+"</h2>",
+    type: "success",
+    icon: false
+  }) if flash and flash.length }}
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds-from-desktop">
+
       <h1 class="govuk-heading-l">
         {{ title }} ({{referrals.length}})
       </h1>
