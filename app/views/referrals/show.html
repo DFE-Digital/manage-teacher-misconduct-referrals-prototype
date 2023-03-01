@@ -388,8 +388,21 @@
           Referrer details
         </h2>
 
+        {% set type = referral.type %}
+        {% if type == 'Public' %}
+          {% set type = 'Member of public' %}
+        {% endif %}
+
         {{ govukSummaryList({
           rows: [
+            {
+              key: {
+                html: "Type"
+              },
+              value: {
+                html: type
+              }
+            },
             {
               key: {
                 html: "First name"
