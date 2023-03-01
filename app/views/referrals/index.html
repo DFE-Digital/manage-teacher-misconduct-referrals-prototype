@@ -35,6 +35,11 @@
               {# ({{referral.type | lower}}) #}
             {% endset %}
 
+            {% set type = referral.type %}
+            {% if type == 'Public' %}
+              {% set type = 'Member of public' %}
+            {% endif %}
+
             {{ govukSummaryList({
               classes: 'govuk-summary-list--no-border app-summary-list--compact',
               rows: [
@@ -52,6 +57,14 @@
                   },
                   value: {
                     html: referrer
+                  }
+                },
+                {
+                  key: {
+                    text: "Type"
+                  },
+                  value: {
+                    html: type
                   }
                 }
               ]
