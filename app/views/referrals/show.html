@@ -102,12 +102,44 @@
             },
             {
               key: {
+                html: "Do you know them by any other name?"
+              },
+              value: {
+                html: referral.teacher.hasAnotherName
+              }
+            } if referral.teacher.hasAnotherName == 'No',
+            {
+              key: {
                 html: "Other name"
               },
               value: {
                 html: referral.teacher.otherName
               }
-            } if referral.teacher.otherName,
+            } if referral.teacher.hasAnotherName == 'Yes',
+            {
+              key: {
+                html: "Do you know their date of birth?"
+              },
+              value: {
+                html: referral.teacher.hasDateOfBirth
+              }
+            } if referral.teacher.hasDateOfBirth == 'No',
+            {
+              key: {
+                html: "Date of birth"
+              },
+              value: {
+                html: referral.teacher.dateOfBirth | date
+              }
+            } if referral.teacher.hasDateOfBirth == 'Yes',
+            {
+              key: {
+                html: "Do you know their email address?"
+              },
+              value: {
+                html: referral.teacher.hasEmailAddress
+              }
+            } if referral.teacher.hasEmailAddress == 'No',
             {
               key: {
                 html: "Email address"
@@ -115,7 +147,15 @@
               value: {
                 html: referral.teacher.emailAddress
               }
-            } if referral.teacher.emailAddress,
+            } if referral.teacher.hasEmailAddress == 'Yes',
+            {
+              key: {
+                html: "Do you know their phone number?"
+              },
+              value: {
+                html: referral.teacher.hasPhoneNumber
+              }
+            } if referral.teacher.hasPhoneNumber == 'No',
             {
               key: {
                 html: "Phone number"
@@ -123,7 +163,15 @@
               value: {
                 html: referral.teacher.phoneNumber
               }
-            } if referral.teacher.phoneNumber,
+            } if referral.teacher.hasPhoneNumber == 'Yes',
+            {
+              key: {
+                html: "Do you know their home address?"
+              },
+              value: {
+                html: referral.teacher.hasAddress
+              }
+            } if referral.teacher.hasAddress == 'No',
             {
               key: {
                 html: "Address"
@@ -131,7 +179,15 @@
               value: {
                 html: teacherAddress
               }
-            } if referral.teacher.address,
+            } if referral.teacher.hasAddress == 'Yes',
+            {
+              key: {
+                html: "Do you know their National Insurance number?"
+              },
+              value: {
+                html: referral.teacher.hasNationalInsuranceNumber
+              }
+            } if referral.teacher.hasNationalInsuranceNumber == 'No',
             {
               key: {
                 html: "National insurance number"
@@ -139,7 +195,15 @@
               value: {
                 html: referral.teacher.nationalInsuranceNumber
               }
-            } if referral.teacher.nationalInsuranceNumber,
+            } if referral.teacher.hasNationalInsuranceNumber == 'Yes',
+            {
+              key: {
+                html: "Do you know their teacher reference number (TRN)?"
+              },
+              value: {
+                html: referral.teacher.hasTeacherReferenceNumber
+              }
+            } if referral.teacher.hasTeacherReferenceNumber == 'No',
             {
               key: {
                 html: "Teacher reference number (TRN)"
@@ -147,10 +211,10 @@
               value: {
                 html: referral.teacher.trn
               }
-            } if referral.teacher.trn,
+            } if referral.teacher.hasTeacherReferenceNumber == 'Yes',
             {
               key: {
-                html: "Do they have qualified teacher status?"
+                html: "Do they have qualified teacher status (QTS)?"
               },
               value: {
                 html: referral.teacher.hasQTS
@@ -220,12 +284,28 @@
             } if roleDescription | length,
             {
               key: {
+                html: "Do you know the name and address of the organisation where the alleged misconduct took place?"
+              },
+              value: {
+                html: referral.teacher.knowWhereTheyWorked
+              }
+            } if referral.teacher.knowWhereTheyWorked == 'No',
+            {
+              key: {
                 html: "Organisation"
               },
               value: {
                 html: teacherOrganisation
               }
-            } if referral.teacher.organisation,
+            } if referral.teacher.knowWhereTheyWorked == 'Yes',
+            {
+              key: {
+                html: "Were they employed at the same organisation as you at the time of the alleged misconduct?"
+              },
+              value: {
+                html: referral.teacher.workedAtSameOrganisation
+              }
+            } if referral.teacher.workedAtSameOrganisation == 'No',
             {
               key: {
                 html: "Organisation"
@@ -236,12 +316,28 @@
             } if referral.teacher.workedAtSameOrganisation == 'Yes',
             {
               key: {
+                html: "Do you know when they started the job?"
+              },
+              value: {
+                html: referral.teacher.hasJobStartDate
+              }
+            } if referral.teacher.hasJobStartDate == 'No',
+            {
+              key: {
                 html: "Job start date"
               },
               value: {
                 html: referral.teacher.jobStartDate | date
               }
-            } if referral.teacher.jobStartDate,
+            } if referral.teacher.hasJobStartDate == 'Yes',
+            {
+              key: {
+                html: "Do you know when they left the job?"
+              },
+              value: {
+                html: referral.teacher.hasJobEndDate
+              }
+            } if referral.teacher.hasJobEndDate == 'No',
             {
               key: {
                 html: "Job end date"
@@ -249,7 +345,7 @@
               value: {
                 html: referral.teacher.jobEndDate | date
               }
-            } if referral.teacher.jobEndDate,
+            } if referral.teacher.hasJobEndDate == 'Yes',
             {
               key: {
                 html: "Reason they left the job"
@@ -262,9 +358,9 @@
         }) }}
       </div>
 
-      {% if referral.teacher.newOrganisation %}
-        <div class="app-panel">
+      {% if referral.teacher.isWorkingSomewhereElse %}
 
+        <div class="app-panel">
           <h2 class="govuk-heading-m">
             Other employment details
           </h2>
@@ -284,16 +380,33 @@
             rows: [
               {
                 key: {
+                  html: "Are they employed somewhere else?"
+                },
+                value: {
+                  html: referral.teacher.isWorkingSomewhereElse
+                }
+              } if not referral.teacher.isWorkingSomewhereElse == 'Yes',
+              {
+                key: {
+                  html: "Do you know the name and address of the organisation where they’re employed?"
+                },
+                value: {
+                  html: referral.teacher.knowWhereTheyWork
+                }
+              } if referral.teacher.knowWhereTheyWork == 'No',
+              {
+                key: {
                   html: "Organisation"
                 },
                 value: {
                   html: newOrganisation
                 }
-              }
+              } if referral.teacher.knowWhereTheyWork == 'Yes'
             ]
           }) }}
         </div>
       {% endif %}
+
       <div class="app-panel">
         <h2 class="govuk-heading-m">Allegation details</h2>
 
@@ -335,18 +448,43 @@
         }) }}
       </div>
 
-      {% if referral.evidence.files.length  %}
-        <div class="app-panel">
-          <h2 class="govuk-heading-m">Evidence and supporting information</h2>
-          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
-            {% for file in referral.evidence.files %}
-              <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}>
-                <a href="#">{{file.name}} ({{file.size}})</a>
+      <div class="app-panel">
+        <h2 class="govuk-heading-m">Evidence and supporting information</h2>
+
+        {% if referral.evidence.files.length  %}
+          {% set evidenceList %}
+            <ul class="govuk-list govuk-list--bullet">
+              {% for file in referral.evidence.files %}
+                <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}>
+                  <a href="#">{{file.name}} ({{file.size}})</a>
                 </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
+              {% endfor %}
+            </ul>
+          {% endset %}
+        {% endif %}
+
+        {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  html: "Do you have evidence to upload?"
+                },
+                value: {
+                  html: referral.evidence.hasEvidence
+                }
+              } if referral.evidence.hasEvidence == 'No',
+              {
+                key: {
+                  html: "Uploaded files"
+                },
+                value: {
+                  html: evidenceList
+                }
+              } if referral.evidence.hasEvidence == 'Yes'
+            ]
+          }) }}
+
+      </div>
 
       {% if referral.previousAllegations %}
         <div class="app-panel">

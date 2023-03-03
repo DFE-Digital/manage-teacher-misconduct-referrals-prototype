@@ -58,15 +58,23 @@ const generateReferral = (params = {}) => {
   referral.teacher = _.get(params, 'teacher') || {}
   referral.teacher.firstName = _.get(params, 'teacher.firstName') || faker.name.firstName()
   referral.teacher.lastName = _.get(params, 'teacher.lastName') || faker.name.lastName()
+  referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement([
+    'Yes',
+    'No'
+  ])
+  if(referral.teacher.hasAnotherName == 'Yes') {
+    referral.teacher.otherName = _.get(params, 'teacher.otherName') || 'Bobsky'
+  }
 
   if(userType == 'Employer') {
-    referral.teacher.hasAnotherName = _.get(params, 'teacher.hasAnotherName') || faker.helpers.arrayElement([
+    referral.teacher.hasDateOfBirth = _.get(params, 'teacher.hasDateOfBirth') || faker.helpers.arrayElement([
       'Yes',
       'No'
     ])
-    if(referral.teacher.hasAnotherName == 'Yes') {
-      referral.teacher.otherName = _.get(params, 'teacher.otherName') || 'Bobsky'
+    if(referral.teacher.hasDateOfBirth == 'Yes') {
+      referral.teacher.dateOfBirth = _.get(params, 'teacher.dateOfBirth') || faker.date.past(25)
     }
+
     referral.teacher.hasNationalInsuranceNumber = _.get(params, 'teacher.hasNationalInsuranceNumber') || faker.helpers.arrayElement([
       'Yes',
       'No'
@@ -104,6 +112,12 @@ const generateReferral = (params = {}) => {
     if(referral.teacher.hasPhoneNumber == 'Yes') {
       referral.teacher.phoneNumber = _.get(params, 'teacher.phoneNumber') || faker.phone.number('079## ### ###')
     }
+
+    referral.teacher.hasAddress = _.get(params, 'teacher.hasAddress') || faker.helpers.arrayElement([
+      'Yes',
+      'No'
+    ])
+
     if(referral.teacher.hasAddress == 'Yes') {
       referral.teacher.address = _.get(params, 'referrer.teacher.address') || {
         line1: '1 The Walk',
