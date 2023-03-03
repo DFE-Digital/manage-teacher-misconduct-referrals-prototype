@@ -448,18 +448,43 @@
         }) }}
       </div>
 
-      {% if referral.evidence.files.length  %}
-        <div class="app-panel">
-          <h2 class="govuk-heading-m">Evidence and supporting information</h2>
-          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
-            {% for file in referral.evidence.files %}
-              <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}>
-                <a href="#">{{file.name}} ({{file.size}})</a>
+      <div class="app-panel">
+        <h2 class="govuk-heading-m">Evidence and supporting information</h2>
+
+        {% if referral.evidence.files.length  %}
+          {% set evidenceList %}
+            <ul class="govuk-list govuk-list--bullet">
+              {% for file in referral.evidence.files %}
+                <li {% if loop.last %}class="govuk-!-margin-bottom-0"{% endif%}>
+                  <a href="#">{{file.name}} ({{file.size}})</a>
                 </li>
-            {% endfor %}
-          </ul>
-        </div>
-      {% endif %}
+              {% endfor %}
+            </ul>
+          {% endset %}
+        {% endif %}
+
+        {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  html: "Do you have evidence to upload?"
+                },
+                value: {
+                  html: referral.evidence.hasEvidence
+                }
+              } if referral.evidence.hasEvidence == 'No',
+              {
+                key: {
+                  html: "Uploaded files"
+                },
+                value: {
+                  html: evidenceList
+                }
+              } if referral.evidence.hasEvidence == 'Yes'
+            ]
+          }) }}
+
+      </div>
 
       {% if referral.previousAllegations %}
         <div class="app-panel">
