@@ -102,12 +102,44 @@
             },
             {
               key: {
+                html: "Do you know them by any other name?"
+              },
+              value: {
+                html: referral.teacher.hasAnotherName
+              }
+            } if referral.teacher.hasAnotherName == 'No',
+            {
+              key: {
                 html: "Other name"
               },
               value: {
                 html: referral.teacher.otherName
               }
-            } if referral.teacher.otherName,
+            } if referral.teacher.hasAnotherName == 'Yes',
+            {
+              key: {
+                html: "Do you know their date of birth?"
+              },
+              value: {
+                html: referral.teacher.hasDateOfBirth
+              }
+            } if referral.teacher.hasDateOfBirth == 'No',
+            {
+              key: {
+                html: "Date of birth"
+              },
+              value: {
+                html: referral.teacher.dateOfBirth | date
+              }
+            } if referral.teacher.hasDateOfBirth == 'Yes',
+            {
+              key: {
+                html: "Do you know their email address?"
+              },
+              value: {
+                html: referral.teacher.hasEmailAddress
+              }
+            } if referral.teacher.hasEmailAddress == 'No',
             {
               key: {
                 html: "Email address"
@@ -115,7 +147,15 @@
               value: {
                 html: referral.teacher.emailAddress
               }
-            } if referral.teacher.emailAddress,
+            } if referral.teacher.hasEmailAddress == 'Yes',
+            {
+              key: {
+                html: "Do you know their phone number?"
+              },
+              value: {
+                html: referral.teacher.hasPhoneNumber
+              }
+            } if referral.teacher.hasPhoneNumber == 'No',
             {
               key: {
                 html: "Phone number"
@@ -123,7 +163,15 @@
               value: {
                 html: referral.teacher.phoneNumber
               }
-            } if referral.teacher.phoneNumber,
+            } if referral.teacher.hasPhoneNumber == 'Yes',
+            {
+              key: {
+                html: "Do you know their home address?"
+              },
+              value: {
+                html: referral.teacher.hasAddress
+              }
+            } if referral.teacher.hasAddress == 'No',
             {
               key: {
                 html: "Address"
@@ -131,7 +179,15 @@
               value: {
                 html: teacherAddress
               }
-            } if referral.teacher.address,
+            } if referral.teacher.hasAddress == 'Yes',
+            {
+              key: {
+                html: "Do you know their National Insurance number?"
+              },
+              value: {
+                html: referral.teacher.hasNationalInsuranceNumber
+              }
+            } if referral.teacher.hasNationalInsuranceNumber == 'No',
             {
               key: {
                 html: "National insurance number"
@@ -139,7 +195,15 @@
               value: {
                 html: referral.teacher.nationalInsuranceNumber
               }
-            } if referral.teacher.nationalInsuranceNumber,
+            } if referral.teacher.hasNationalInsuranceNumber == 'Yes',
+            {
+              key: {
+                html: "Do you know their teacher reference number (TRN)?"
+              },
+              value: {
+                html: referral.teacher.hasTeacherReferenceNumber
+              }
+            } if referral.teacher.hasTeacherReferenceNumber == 'No',
             {
               key: {
                 html: "Teacher reference number (TRN)"
@@ -147,10 +211,10 @@
               value: {
                 html: referral.teacher.trn
               }
-            } if referral.teacher.trn,
+            } if referral.teacher.hasTeacherReferenceNumber == 'Yes',
             {
               key: {
-                html: "Do they have qualified teacher status?"
+                html: "Do they have qualified teacher status (QTS)?"
               },
               value: {
                 html: referral.teacher.hasQTS
